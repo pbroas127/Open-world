@@ -1,0 +1,121 @@
+[gd_scene load_steps=5 format=3 uid="uid://chm1oleyalb6v"]
+
+[ext_resource type="Script" uid="uid://c35gvk4tfq7vm" path="res://Assets/Interactive/Crates/crate_ui.gd" id="1_iam6w"]
+[ext_resource type="Texture2D" uid="uid://o3kltlny2xbw" path="res://Assets/Interactive/Crates/chestUI.png" id="2_iam6w"]
+[ext_resource type="Texture2D" uid="uid://fcap4b7oqifa" path="res://Assets/Interactive/Crates/black_chest.jpg" id="2_rwvf0"]
+[ext_resource type="PackedScene" uid="uid://cyqv1ogqi3vdp" path="res://Inventory/UI/Slot.tscn" id="3_iam6w"]
+
+[node name="CrateUI" type="Control" groups=["crate_ui"]]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_iam6w")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.882353)
+light_mask = 0
+z_index = -1
+position = Vector2(573, 284)
+texture = ExtResource("2_rwvf0")
+
+[node name="CrateBackground" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 364.0
+offset_top = 310.0
+offset_right = 4612.0
+offset_bottom = 1078.0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_iam6w")
+
+[node name="CrateSlots" type="Control" parent="." groups=["crate_ui"]]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 362.0
+offset_top = 307.0
+offset_right = 441.0
+offset_bottom = 317.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(5.38124, 6.97886)
+
+[node name="CSlot1" parent="CrateSlots" instance=ExtResource("3_iam6w")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.349
+anchor_top = 0.845
+anchor_right = 0.349
+anchor_bottom = 0.845
+offset_left = -35.048
+offset_top = -231.56
+offset_right = 34.952
+offset_bottom = -167.56
+
+[node name="CSlot2" parent="CrateSlots" instance=ExtResource("3_iam6w")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.409
+anchor_top = 0.846
+anchor_right = 0.409
+anchor_bottom = 0.846
+offset_left = -32.168
+offset_top = -232.208
+offset_right = 35.832
+offset_bottom = -168.208
+
+[node name="CSlot3" parent="CrateSlots" instance=ExtResource("3_iam6w")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.468
+anchor_top = 0.846
+anchor_right = 0.468
+anchor_bottom = 0.846
+offset_left = -33.136
+offset_top = -232.208
+offset_right = 32.864
+offset_bottom = -168.208
+
+[node name="CSlot4" parent="CrateSlots" instance=ExtResource("3_iam6w")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.526
+anchor_top = 0.846
+anchor_right = 0.526
+anchor_bottom = 0.846
+offset_left = -34.952
+offset_top = -232.208
+offset_right = 35.048
+offset_bottom = -168.208
+
+[node name="CSlot5" parent="CrateSlots" instance=ExtResource("3_iam6w")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.586
+anchor_top = 0.846
+anchor_right = 0.586
+anchor_bottom = 0.846
+offset_left = -34.072
+offset_top = -232.208
+offset_right = 32.928
+offset_bottom = -168.208
+
+[node name="CSlot6" parent="CrateSlots" instance=ExtResource("3_iam6w")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.648
+anchor_top = 0.849
+anchor_right = 0.648
+anchor_bottom = 0.849
+offset_left = -37.496
+offset_top = -234.152
+offset_right = 37.504
+offset_bottom = -170.152

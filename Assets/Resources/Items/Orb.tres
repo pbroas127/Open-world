@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://bmbs7xndk41ij"]
+
+[ext_resource type="Script" uid="uid://b8ttkg5e1acw0" path="res://Assets/Resources/ItemData.gd" id="1_2hs4d"]
+[ext_resource type="Texture2D" uid="uid://s25smcfy3n62" path="res://Assets/Resources/Icons/Orb.png" id="1_okqw1"]
+
+[resource]
+script = ExtResource("1_2hs4d")
+name = "Orb"
+icon = ExtResource("1_okqw1")
+stack_size = 24
+metadata/_custom_type_script = "uid://b8ttkg5e1acw0"

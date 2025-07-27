@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dasi8dpwq41ay"]
+
+[ext_resource type="Script" uid="uid://clxwvcomkbl7k" path="res://UI/Health/HealthUI.gd" id="1_idcex"]
+[ext_resource type="FontFile" uid="uid://7frr1ucdtg6h" path="res://Assets/Fonts/Round9x13.ttf" id="2_y3o50"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_idcex"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_y3o50"]
+
+[node name="Health" type="CanvasLayer"]
+
+[node name="HealthUI" type="CanvasLayer" parent="."]
+script = ExtResource("1_idcex")
+
+[node name="HealthBar" type="TextureProgressBar" parent="HealthUI"]
+z_index = 11
+anchors_preset = -1
+anchor_left = 0.464
+anchor_top = 0.941
+anchor_right = 0.464
+anchor_bottom = 0.941
+offset_left = -165.528
+offset_top = -9.76801
+offset_right = 165.8
+offset_bottom = 10.232
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("CanvasTexture_idcex")
+texture_progress = SubResource("CanvasTexture_y3o50")
+tint_under = Color(0.176419, 0.176419, 0.176419, 1)
+tint_progress = Color(0.294106, 0.741957, 7.70092e-07, 1)
+
+[node name="HealthValueLabel" type="Label" parent="HealthUI"]
+offset_left = 711.0
+offset_top = 599.0
+offset_right = 751.0
+offset_bottom = 623.0
+theme_override_fonts/font = ExtResource("2_y3o50")
+theme_override_font_sizes/font_size = 25

@@ -1,0 +1,134 @@
+[gd_scene load_steps=16 format=3 uid="uid://c424wfwceyqvp"]
+
+[ext_resource type="Script" uid="uid://bti8xifndydhr" path="res://Big Scenes/B2InteriorBig/b_2_big_interior.gd" id="1_1ks5a"]
+[ext_resource type="PackedScene" uid="uid://crisx50tly05d" path="res://Inventory/UI/UI.tscn" id="1_7hxvy"]
+[ext_resource type="PackedScene" uid="uid://badm6cg1600l1" path="res://Player/Player.tscn" id="1_c4pau"]
+[ext_resource type="PackedScene" uid="uid://chm1oleyalb6v" path="res://Assets/Interactive/Crates/CrateUI.tscn" id="2_6xgax"]
+[ext_resource type="PackedScene" uid="uid://cjr3ehge5xuk8" path="res://Assets/Interactive/Crates/Crate.tscn" id="2_72dsh"]
+[ext_resource type="PackedScene" uid="uid://dasi8dpwq41ay" path="res://UI/Health/HealthUI.tscn" id="2_ccp0x"]
+[ext_resource type="Texture2D" uid="uid://8hbvkc00ymcm" path="res://Assets/Backgrounds/blackscreen.png" id="3_7hxvy"]
+[ext_resource type="Texture2D" uid="uid://bxtejf755c41t" path="res://Assets/Lights/lightfixture.png" id="7_8xqpo"]
+[ext_resource type="Texture2D" uid="uid://b2rhipsc1p3os" path="res://Assets/Lights/light.png" id="8_1ks5a"]
+[ext_resource type="PackedScene" uid="uid://bvh17lgifgv4v" path="res://Big Scenes/B2InteriorBig/b_2_building.tscn" id="8_8xqpo"]
+[ext_resource type="PackedScene" uid="uid://6goemw6fhbpa" path="res://Assets/NPC/Quest/QuestNPC.tscn" id="10_manc0"]
+[ext_resource type="PackedScene" uid="uid://6tgg4xvk5u8m" path="res://UI/QuestUI.tscn" id="11_7gt68"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_8xqpo"]
+polygon = PackedVector2Array(10100, -4850, 10050, 2750, 14900, 2750, 14900, -4950)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1ks5a"]
+polygon = PackedVector2Array(22350, -4850, 22500, 2600, 27250, 2750, 27150, -5000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xqpo"]
+size = Vector2(113, 23)
+
+[node name="B2BigInterior" type="Node2D"]
+script = ExtResource("1_1ks5a")
+
+[node name="HealthUi" parent="." instance=ExtResource("2_ccp0x")]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.222043, 0.261429, 0.355683, 1)
+
+[node name="Ui" parent="." instance=ExtResource("1_7hxvy")]
+
+[node name="CrateUI" parent="Ui" instance=ExtResource("2_6xgax")]
+
+[node name="Interior" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Lightfixture2" type="Sprite2D" parent="Interior"]
+position = Vector2(961, 347)
+rotation = 3.14159
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("7_8xqpo")
+
+[node name="PointLight2D" type="PointLight2D" parent="Interior/Lightfixture2"]
+position = Vector2(-150, 150)
+scale = Vector2(2.5, 2.5)
+energy = 0.5
+shadow_enabled = true
+shadow_filter = 2
+texture = ExtResource("8_1ks5a")
+texture_scale = 40.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Interior/Lightfixture2/PointLight2D"]
+position = Vector2(19.9988, 560)
+scale = Vector2(0.4, 0.4)
+occluder = SubResource("OccluderPolygon2D_8xqpo")
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Interior/Lightfixture2/PointLight2D"]
+position = Vector2(-0.00117493, 560)
+scale = Vector2(0.4, 0.4)
+occluder = SubResource("OccluderPolygon2D_1ks5a")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Interior/Lightfixture2"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Interior/Lightfixture2/StaticBody2D"]
+polygon = PackedVector2Array(250, 0, 250, 250, 100, 650, -250, 749.998, -249.996, -800.002, 100.004, -600, 200, -300)
+
+[node name="Lightfixture" type="Sprite2D" parent="Interior"]
+position = Vector2(218, 359)
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("7_8xqpo")
+
+[node name="PointLight2D" type="PointLight2D" parent="Interior/Lightfixture"]
+position = Vector2(-150, 150)
+scale = Vector2(2.5, 2.5)
+energy = 0.5
+shadow_enabled = true
+shadow_filter = 2
+texture = ExtResource("8_1ks5a")
+texture_scale = 40.0
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Interior/Lightfixture/PointLight2D"]
+position = Vector2(60, -60)
+scale = Vector2(0.4, 0.4)
+occluder = SubResource("OccluderPolygon2D_8xqpo")
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Interior/Lightfixture/PointLight2D"]
+position = Vector2(60, -60)
+scale = Vector2(0.4, 0.4)
+occluder = SubResource("OccluderPolygon2D_1ks5a")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Interior/Lightfixture"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Interior/Lightfixture/StaticBody2D"]
+polygon = PackedVector2Array(250, 100, 200, 300, 0, 700, -250, 750, -250, -300, -250, -800, 200, -450, 300, -100)
+
+[node name="Player" parent="Interior" instance=ExtResource("1_c4pau")]
+position = Vector2(611, 479)
+
+[node name="Crate3" parent="Interior" instance=ExtResource("2_72dsh")]
+position = Vector2(711, 433)
+scale = Vector2(0.07, 0.07)
+crate_id = "crate_3"
+
+[node name="Crate4" parent="Interior" instance=ExtResource("2_72dsh")]
+position = Vector2(465, 433)
+scale = Vector2(0.07, 0.07)
+crate_id = "crate_4"
+
+[node name="InteriorBG" type="Sprite2D" parent="Interior"]
+z_index = -2
+position = Vector2(590, 398)
+scale = Vector2(1.7125, 2.53148)
+texture = ExtResource("3_7hxvy")
+
+[node name="B2Building" parent="Interior" instance=ExtResource("8_8xqpo")]
+position = Vector2(588, 801)
+
+[node name="DoorToOutside" type="Area2D" parent="Interior/B2Building"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interior/B2Building/DoorToOutside"]
+position = Vector2(-1.5, -29.5)
+shape = SubResource("RectangleShape2D_8xqpo")
+
+[node name="QuestNPC" parent="Interior" instance=ExtResource("10_manc0")]
+position = Vector2(590, 106)
+scale = Vector2(0.1, 0.1)
+npc_id = "quest_npc1"
+
+[node name="QuestUI" parent="." instance=ExtResource("11_7gt68")]
+
+[connection signal="body_entered" from="Interior/B2Building/DoorToOutside" to="Interior/Player" method="_on_door_to_outside_body_entered"]

@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3 uid="uid://cnv58s0h5b5my"]
+
+[ext_resource type="Texture2D" uid="uid://c4fimp288kyse" path="res://Big Scenes/A2/a2back.png" id="1_1tj14"]
+[ext_resource type="Script" uid="uid://bkb8ers71fq8m" path="res://Big Scenes/A2/a_2.gd" id="1_3gmum"]
+[ext_resource type="PackedScene" uid="uid://badm6cg1600l1" path="res://Player/Player.tscn" id="2_0jqrr"]
+[ext_resource type="PackedScene" uid="uid://6tgg4xvk5u8m" path="res://UI/QuestUI.tscn" id="3_0jqrr"]
+[ext_resource type="PackedScene" uid="uid://dasi8dpwq41ay" path="res://UI/Health/HealthUI.tscn" id="3_a08ah"]
+[ext_resource type="PackedScene" uid="uid://5wgku1musiq1" path="res://Assets/Campfire/CampfireMenu.tscn" id="3_mbdfa"]
+[ext_resource type="PackedScene" uid="uid://crisx50tly05d" path="res://Inventory/UI/UI.tscn" id="4_nc8af"]
+[ext_resource type="PackedScene" uid="uid://d22eo4cbh1cnp" path="res://Assets/Campfire/Campfire.tscn" id="5_gjb16"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gmum"]
+size = Vector2(372, 87)
+
+[node name="A2" type="Node2D"]
+script = ExtResource("1_3gmum")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(972, -191)
+texture = ExtResource("1_1tj14")
+
+[node name="Health" parent="." instance=ExtResource("3_a08ah")]
+
+[node name="CampfireMenu" parent="." groups=["campfire_menu"] instance=ExtResource("3_mbdfa")]
+layer = 3
+offset = Vector2(400, 0)
+transform = Transform2D(1, 0, 0, 1, 400, 0)
+
+[node name="QuestUI" parent="." instance=ExtResource("3_0jqrr")]
+
+[node name="Ui" parent="." instance=ExtResource("4_nc8af")]
+
+[node name="A2OutsideYslot" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Campfire" parent="A2OutsideYslot" instance=ExtResource("5_gjb16")]
+position = Vector2(965, 197)
+scale = Vector2(0.1, 0.1)
+
+[node name="Player" parent="A2OutsideYslot" instance=ExtResource("2_0jqrr")]
+position = Vector2(621, 473)
+
+[node name="a2tob2" type="Area2D" parent="A2OutsideYslot"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="A2OutsideYslot/a2tob2"]
+position = Vector2(618, 599)
+shape = SubResource("RectangleShape2D_3gmum")
+
+[connection signal="body_entered" from="A2OutsideYslot/a2tob2" to="A2OutsideYslot/Player" method="_on_a_2_tob_2_body_entered"]

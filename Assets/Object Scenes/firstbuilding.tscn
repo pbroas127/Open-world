@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmmdl05o8m4yf"]
+
+[ext_resource type="Texture2D" uid="uid://bel58nluotlte" path="res://Assets/Backgrounds/firsthouse.png" id="1_sndhk"]
+
+[node name="Firstbuilding" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(173, -178)
+texture = ExtResource("1_sndhk")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" groups=["outside_collision"]]
+position = Vector2(2, -176)
+polygon = PackedVector2Array(243, -28, 242, 133, 136, 170, 26, 172, 25, 123, 10, 97, -17, 100, -31, 125, -32, 176, -47, 178, -159, 165, -260, 102, -265, -42, -124, 20, 93, 24)

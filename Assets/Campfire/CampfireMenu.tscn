@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://5wgku1musiq1"]
+
+[ext_resource type="Script" uid="uid://cx1g2v12sdnk1" path="res://Assets/Campfire/CampfireMenu.gd" id="1_mdouj"]
+[ext_resource type="FontFile" uid="uid://7frr1ucdtg6h" path="res://Assets/Fonts/Round9x13.ttf" id="2_e4irr"]
+
+[node name="CampfireMenu" type="CanvasLayer"]
+script = ExtResource("1_mdouj")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = 7
+anchors_preset = -1
+anchor_left = 0.499
+anchor_top = 0.486
+anchor_right = 0.499
+anchor_bottom = 0.486
+offset_left = -124.848
+offset_top = -199.928
+offset_right = 125.152
+offset_bottom = 200.072
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+custom_minimum_size = Vector2(250, 400)
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 400.0
+
+[node name="Sleep" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_e4irr")
+theme_override_font_sizes/font_size = 20
+text = "💤 Rest for the Night"
+
+[node name="Heal" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_e4irr")
+theme_override_font_sizes/font_size = 20
+text = "❤️ Restore Health
+"
+
+[node name="BurnItems" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_e4irr")
+theme_override_font_sizes/font_size = 20
+text = "🔥Burn Items"
+
+[node name="SpendXP" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_e4irr")
+theme_override_font_sizes/font_size = 20
+text = "✨Spend XP"
+
+[node name="LeaveCampfire" type="Button" parent="Panel/VBoxContainer"]
+z_index = 8
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_e4irr")
+theme_override_font_sizes/font_size = 20
+text = "🚪Leave Campfire"

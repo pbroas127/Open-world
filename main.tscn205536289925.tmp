@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://bi1n2ltvmfbim"]
+
+[ext_resource type="PackedScene" uid="uid://badm6cg1600l1" path="res://Player/Player.tscn" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://b4isdjyuyp8vn" path="res://Inventory/InventoryManager.gd" id="1_kek77"]
+[ext_resource type="Texture2D" uid="uid://d2ruvwsyymy1w" path="res://Assets/Backgrounds/firstbackground.png" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cmmdl05o8m4yf" path="res://Assets/Object Scenes/firstbuilding.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ddiwpx0isb0ts" path="res://Assets/Object Scenes/tent.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://c0gdfedk3syfw" path="res://Assets/Object Scenes/hut.tscn" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://b55o64s8o2cdh" path="res://Assets/Object Scenes/tree.tscn" id="6_7mycd"]
+[ext_resource type="PackedScene" uid="uid://dfoaa3f72r156" path="res://Assets/Object Scenes/flags.tscn" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://ohjlk86jxh3t" path="res://Assets/NPC/jawa.tscn" id="8_5vw27"]
+
+[node name="Main" type="Node2D"]
+
+[node name="InventoryManager" type="Node" parent="."]
+script = ExtResource("1_kek77")
+
+[node name="Background" type="Sprite2D" parent="."]
+show_behind_parent = true
+position = Vector2(604, 480)
+texture = ExtResource("2_0xm2m")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Background"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(484, -519, 413, -526, 355, -515, 346, -562, 272, -579, 284, -663, 311, -680, 373, -648, 580, -737, 555, -753, 571, -767, 708, -735, 704, -703, 642, -719, 543, -625, 596, -625, 576, -579, 594, -549, 530, -533)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(118, 457, 67, 488, 70, 503, 153, 503, 159, 486, 147, 466)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(630, 66, 600, 70, 587, 96, 599, 114, 654, 121, 680, 107, 676, 94, 664, 94, 662, 83)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-554, 319, -597, 351, -603, 367, -514, 364, -533, 344, -534, 331)
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-557, 282, -576, 298, -590, 299, -593, 311, -540, 310, -539, 286)
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-129, -667, -181, -636, -180, -612, -117, -608, -65, -612, -52, -637, -82, -645, -92, -662)
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-536, -772, -536, -688, -499, -674, -478, -649, -497, -596, -536, -579, -649, -553, -637, -493, -647, -436, -628, -372, -649, -286, -643, -222, -669, -119, -631, -119, -620, -21, -610, 49, -645, 101, -645, 169, -655, 212, -649, 239, -646, 378, -625, 393, -652, 443, -670, 547, -644, 561, -640, 598, -657, 608, -645, 670, -633, 684, -649, 703, -654, 768, -769, 768, -767, -773)
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(766, 179, 656, 216, 624, 253, 587, 344, 490, 417, 424, 507, 354, 570, 275, 655, 228, 704, 212, 758, 771, 770)
+
+[node name="YSort" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Player" parent="YSort" instance=ExtResource("1_ig7tw")]
+position = Vector2(611, 479)
+
+[node name="Firstbuilding" parent="YSort" instance=ExtResource("3_h2yge")]
+position = Vector2(642, 386)
+
+[node name="tent" parent="YSort" instance=ExtResource("4_1bvp3")]
+position = Vector2(626, 793)
+
+[node name="hut" parent="YSort" instance=ExtResource("5_lquwl")]
+position = Vector2(1059, 357)
+
+[node name="flags" parent="YSort" instance=ExtResource("7_272bh")]
+position = Vector2(668, 780)
+
+[node name="Jawa" parent="YSort" instance=ExtResource("8_5vw27")]
+position = Vector2(1062, 346)
+scale = Vector2(0.1, 0.1)
+
+[node name="Tree" parent="YSort" instance=ExtResource("6_7mycd")]
+position = Vector2(310, 1121)

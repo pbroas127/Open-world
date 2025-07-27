@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://c63qs8kkp7uxn"]
+
+[ext_resource type="Texture2D" uid="uid://d4ertgndqqxpt" path="res://Assets/Resources/Icons/metal.png" id="1_keq2q"]
+[ext_resource type="Script" uid="uid://b8ttkg5e1acw0" path="res://Assets/Resources/ItemData.gd" id="2_uhcx8"]
+
+[resource]
+script = ExtResource("2_uhcx8")
+name = "Scrap Metal"
+icon = ExtResource("1_keq2q")
+stack_size = 24
+metadata/_custom_type_script = "uid://b8ttkg5e1acw0"

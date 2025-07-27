@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddiwpx0isb0ts"]
+
+[ext_resource type="Texture2D" uid="uid://dt7y740fi23pj" path="res://Assets/Backgrounds/firsthut.png" id="1_qxh2c"]
+
+[node name="tent" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-66, -105)
+texture = ExtResource("1_qxh2c")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" groups=["outside_collision"]]
+polygon = PackedVector2Array(-297, -75, -304, -9, -147, 24, -117, -4, -64, -1, 14, -106, 61, -49, 94, -2, 184, 9, 164, -30, 143, -21, 142, -117, -237, -118)

@@ -1,0 +1,72 @@
+[gd_scene load_steps=6 format=3 uid="uid://crisx50tly05d"]
+
+[ext_resource type="Script" uid="uid://caiaifiui3top" path="res://Inventory/UI/UI.gd" id="1_1ep63"]
+[ext_resource type="PackedScene" uid="uid://cyqv1ogqi3vdp" path="res://Inventory/UI/Slot.tscn" id="2_1ep63"]
+[ext_resource type="PackedScene" uid="uid://gr4ohc5khtyx" path="res://Inventory/UI/SlotContainer.tscn" id="2_8chfx"]
+[ext_resource type="Texture2D" uid="uid://cweontchad7c4" path="res://Assets/UI Images/inventory.png" id="3_dn4h4"]
+[ext_resource type="Texture2D" uid="uid://fcap4b7oqifa" path="res://Assets/Interactive/Crates/black_chest.jpg" id="5_g63n1"]
+
+[node name="Ui" type="CanvasLayer" groups=["ui"]]
+script = ExtResource("1_1ep63")
+
+[node name="HotbarUI" parent="." instance=ExtResource("2_8chfx")]
+
+[node name="InventoryUI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="InventoryBackground" type="TextureRect" parent="InventoryUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -266.0
+offset_top = -200.0
+offset_right = 1654.0
+offset_bottom = 1112.0
+grow_horizontal = 0
+scale = Vector2(0.3, 0.3)
+mouse_filter = 2
+texture = ExtResource("3_dn4h4")
+
+[node name="InventorySlots" type="Control" parent="InventoryUI"]
+layout_mode = 1
+anchor_left = 0.499
+anchor_top = 0.467
+anchor_right = 0.499
+anchor_bottom = 0.467
+offset_left = -265.1
+offset_top = -202.1
+offset_right = 1644.9
+offset_bottom = 1037.9
+mouse_filter = 2
+
+[node name="Slot7" parent="InventoryUI/InventorySlots" instance=ExtResource("2_1ep63")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.298
+anchor_top = 0.242
+anchor_right = 0.298
+anchor_bottom = 0.242
+offset_left = -37.296
+offset_top = -37.816
+offset_right = 40.704
+offset_bottom = 37.184
+
+[node name="Sprite2D" type="Sprite2D" parent="InventoryUI"]
+modulate = Color(1, 1, 1, 0.901961)
+z_index = -1
+texture = ExtResource("5_g63n1")

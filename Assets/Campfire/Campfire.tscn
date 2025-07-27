@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://d22eo4cbh1cnp"]
+
+[ext_resource type="Script" uid="uid://brm0n1pkxwqmv" path="res://Assets/Campfire/Campfire.gd" id="1_v6fvh"]
+[ext_resource type="Texture2D" uid="uid://cjsksb5nehr4f" path="res://Player/Shadow (2).png" id="2_ktiqv"]
+[ext_resource type="Texture2D" uid="uid://b4rs884u6j578" path="res://Assets/Campfire/logs.png" id="2_lbumn"]
+[ext_resource type="Texture2D" uid="uid://c4kwwhxlor3db" path="res://Assets/Campfire/flame1.png" id="3_uvbvp"]
+[ext_resource type="Texture2D" uid="uid://b4y8uoowyawun" path="res://Assets/Campfire/flame2.png" id="4_6ukct"]
+[ext_resource type="Texture2D" uid="uid://dndnff6gggcgh" path="res://Assets/Campfire/flame3.png" id="5_6ukct"]
+[ext_resource type="FontFile" uid="uid://7frr1ucdtg6h" path="res://Assets/Fonts/Round9x13.ttf" id="6_ktiqv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uvbvp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_uvbvp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_6ukct")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_uvbvp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6ukct")
+}],
+"loop": true,
+"name": &"burning",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6ukct"]
+radius = 1648.3
+
+[node name="Campfire" type="Area2D"]
+script = ExtResource("1_v6fvh")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.317647)
+position = Vector2(-50, 350)
+scale = Vector2(5.5, 5.5)
+texture = ExtResource("2_ktiqv")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Shadow"]
+position = Vector2(9.09091, -63.6364)
+scale = Vector2(0.181818, 0.181818)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shadow/StaticBody2D"]
+position = Vector2(-5, -208)
+polygon = PackedVector2Array(8, 104, -168, 101, -289, 143, -331, 375, 2, 442, 350, 382, 265, 164, 234, 130)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-6, -72)
+texture = ExtResource("2_lbumn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, -342)
+sprite_frames = SubResource("SpriteFrames_uvbvp")
+animation = &"burning"
+frame_progress = 0.750751
+speed_scale = 0.5
+
+[node name="InteractArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(-1, -49)
+shape = SubResource("CircleShape2D_6ukct")
+
+[node name="PromptLabel" type="Label" parent="."]
+offset_left = -496.0
+offset_top = -985.0
+offset_right = 518.0
+offset_bottom = -756.0
+theme_override_fonts/font = ExtResource("6_ktiqv")
+theme_override_font_sizes/font_size = 120
+text = "Press E to Rest
+"
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+position = Vector2(-5, -208)
+polygon = PackedVector2Array(-8, -444, -188, 46, -289, 143, -331, 375, 2, 442, 350, 382, 265, 164, 99, -376)

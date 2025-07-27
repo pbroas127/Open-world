@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://c0w7ss4lg0wmm"]
+
+[ext_resource type="Script" uid="uid://b8ttkg5e1acw0" path="res://Assets/Resources/ItemData.gd" id="1_7p0cn"]
+[ext_resource type="Texture2D" uid="uid://cai7frujugrjp" path="res://Assets/Resources/Icons/Plate.png" id="1_075m6"]
+
+[resource]
+script = ExtResource("1_7p0cn")
+name = "Plate"
+icon = ExtResource("1_075m6")
+stack_size = 24
+metadata/_custom_type_script = "uid://b8ttkg5e1acw0"

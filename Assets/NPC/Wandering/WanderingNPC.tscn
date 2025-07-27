@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=3 uid="uid://baqjlv6r2pudb"]
+
+[ext_resource type="Texture2D" uid="uid://dpo3ika48a0nt" path="res://Assets/NPC/Wandering/Rebel/upnpc1.png" id="1_0e8s1"]
+[ext_resource type="Script" uid="uid://bmyfwgj2ihude" path="res://Assets/NPC/Wandering/wanderingnpc.gd" id="1_5muga"]
+[ext_resource type="Texture2D" uid="uid://rvmp8wec2dmn" path="res://Assets/NPC/Wandering/Rebel/downnpc1.png" id="2_5muga"]
+[ext_resource type="Texture2D" uid="uid://bnn6gyar1t61b" path="res://Assets/NPC/Wandering/Rebel/downnpc.png" id="3_50lwd"]
+[ext_resource type="Texture2D" uid="uid://d21uh73m6o6yb" path="res://Assets/NPC/Wandering/Rebel/rightnpc.png" id="4_wrmx6"]
+[ext_resource type="Texture2D" uid="uid://ck4x6knuifu37" path="res://Assets/NPC/Wandering/Rebel/rightnpc1.png" id="5_xb3p2"]
+[ext_resource type="Texture2D" uid="uid://bwjj30d81r1xb" path="res://Assets/NPC/Wandering/Rebel/rightnpc2.png" id="6_bruu3"]
+[ext_resource type="Texture2D" uid="uid://b8cphdfto4syu" path="res://Assets/NPC/Wandering/Rebel/upnpc.png" id="7_molaw"]
+[ext_resource type="Texture2D" uid="uid://c7mygn356r6i1" path="res://Assets/NPC/Wandering/Rebel/upnpc3.png" id="8_o704i"]
+[ext_resource type="Texture2D" uid="uid://2agxbg0vuh4m" path="res://Assets/NPC/Wandering/Rebel/upnpc2.png" id="9_aj3bs"]
+[ext_resource type="Texture2D" uid="uid://cjsksb5nehr4f" path="res://Player/Shadow (2).png" id="11_50lwd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j67h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0e8s1")
+}],
+"loop": true,
+"name": &"stand_down",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_wrmx6")
+}],
+"loop": true,
+"name": &"stand_right",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_molaw")
+}],
+"loop": true,
+"name": &"stand_up",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0e8s1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_5muga")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_0e8s1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_50lwd")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_wrmx6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_xb3p2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wrmx6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bruu3")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_molaw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_o704i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_molaw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_aj3bs")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 12.0
+}]
+
+[node name="WanderingNpc" type="CharacterBody2D"]
+script = ExtResource("1_5muga")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(15, -372)
+sprite_frames = SubResource("SpriteFrames_5j67h")
+animation = &"stand_up"
+speed_scale = 0.75
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(22, -456)
+polygon = PackedVector2Array(-26, 131, 251, 163, 442, 167, 287, 494, -230, 463, -393, 194, -237, 147)
+
+[node name="PauseTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.447059)
+z_index = -1
+position = Vector2(81, 120)
+scale = Vector2(3, 3)
+texture = ExtResource("11_50lwd")
+
+[node name="MoveTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="PauseTimer" to="." method="_on_pause_timer_timeout"]

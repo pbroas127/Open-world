@@ -1,0 +1,123 @@
+[gd_scene load_steps=3 format=3 uid="uid://gr4ohc5khtyx"]
+
+[ext_resource type="Texture2D" uid="uid://cob1iou8uc5rd" path="res://Assets/UI Images/quickbar1.png" id="1_63hfi"]
+[ext_resource type="PackedScene" uid="uid://cyqv1ogqi3vdp" path="res://Inventory/UI/Slot.tscn" id="2_8y0ga"]
+
+[node name="HotbarUI" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HotbarBackground" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_63hfi")
+expand_mode = 4
+stretch_mode = 3
+
+[node name="HotbarSlots" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -210.0
+offset_top = -33.0
+offset_right = -131.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(5.38124, 6.97886)
+
+[node name="Slot1" parent="HotbarSlots" instance=ExtResource("2_8y0ga")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.349
+anchor_top = 0.845
+anchor_right = 0.349
+anchor_bottom = 0.845
+offset_left = -35.048
+offset_top = -31.56
+offset_right = 34.952
+offset_bottom = 32.44
+
+[node name="Slot2" parent="HotbarSlots" instance=ExtResource("2_8y0ga")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.409
+anchor_top = 0.846
+anchor_right = 0.409
+anchor_bottom = 0.846
+offset_left = -32.168
+offset_top = -32.208
+offset_right = 35.832
+offset_bottom = 31.792
+
+[node name="Slot3" parent="HotbarSlots" instance=ExtResource("2_8y0ga")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.468
+anchor_top = 0.846
+anchor_right = 0.468
+anchor_bottom = 0.846
+offset_left = -33.136
+offset_top = -32.208
+offset_right = 32.864
+offset_bottom = 31.792
+
+[node name="Slot4" parent="HotbarSlots" instance=ExtResource("2_8y0ga")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.526
+anchor_top = 0.846
+anchor_right = 0.526
+anchor_bottom = 0.846
+offset_left = -34.952
+offset_top = -32.208
+offset_right = 35.048
+offset_bottom = 31.792
+
+[node name="Slot5" parent="HotbarSlots" instance=ExtResource("2_8y0ga")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.586
+anchor_top = 0.846
+anchor_right = 0.586
+anchor_bottom = 0.846
+offset_left = -34.072
+offset_top = -32.208
+offset_right = 32.928
+offset_bottom = 31.792
+
+[node name="Slot6" parent="HotbarSlots" instance=ExtResource("2_8y0ga")]
+top_level = true
+z_index = 1
+layout_mode = 1
+anchor_left = 0.648
+anchor_top = 0.849
+anchor_right = 0.648
+anchor_bottom = 0.849
+offset_left = -37.496
+offset_top = -32.152
+offset_right = 37.504
+offset_bottom = 31.848

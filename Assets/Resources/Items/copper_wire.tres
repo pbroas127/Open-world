@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://2l8y16oiovl5"]
+
+[ext_resource type="Texture2D" uid="uid://84tobwtxm2yd" path="res://Assets/Resources/Icons/copper.png" id="1_g8q4c"]
+[ext_resource type="Script" uid="uid://b8ttkg5e1acw0" path="res://Assets/Resources/ItemData.gd" id="1_iy3ea"]
+
+[resource]
+script = ExtResource("1_iy3ea")
+name = "Copper Wire"
+icon = ExtResource("1_g8q4c")
+stack_size = 12
+metadata/_custom_type_script = "uid://b8ttkg5e1acw0"

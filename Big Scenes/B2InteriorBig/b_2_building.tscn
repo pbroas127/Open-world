@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvh17lgifgv4v"]
+
+[ext_resource type="Texture2D" uid="uid://bwfel5ry5v8w4" path="res://Assets/Backgrounds/B2building.png" id="1_2eefo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y22wr"]
+size = Vector2(96, 155)
+
+[node name="B2Building" type="Node2D"]
+
+[node name="B2Building" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(2, -439)
+texture = ExtResource("1_2eefo")
+
+[node name="Walls" type="StaticBody2D" parent="B2Building"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="B2Building/Walls"]
+polygon = PackedVector2Array(57, 377, 86, 376, 180, 341, 254, 287, 307, 227, 350, 159, 370, 79, 377, 13, 377, -34, 350, -99, 319, -150, 293, -194, 238, -261, 177, -311, 115, -341, 78, -347, 21, -353, -67, -352, -137, -332, -204, -296, -252, -252, -319, -159, -355, -75, -377, -12, -376, 18, -371, 71, -351, 141, -318, 205, -299, 233, -242, 294, -178, 336, -120, 366, -64, 379, -60, 407, -79, 406, -134, 391, -201, 362, -231, 339, -292, 284, -338, 219, -380, 138, -398, 61, -397, -67, -358, -207, -247, -321, -130, -391, 33, -406, 175, -370, 270, -307, 334, -226, 379, -122, 393, -66, 408, 24, 393, 120, 359, 203, 302, 280, 228, 347, 119, 397, 63, 408)
+
+[node name="Pillars" type="StaticBody2D" parent="B2Building"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="B2Building/Pillars"]
+position = Vector2(122.5, -23.5)
+shape = SubResource("RectangleShape2D_y22wr")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="B2Building/Pillars"]
+position = Vector2(-123, -23.5)
+shape = SubResource("RectangleShape2D_y22wr")

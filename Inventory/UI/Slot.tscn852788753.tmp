@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyqv1ogqi3vdp"]
+
+[ext_resource type="Script" uid="uid://bokcxx8tejofq" path="res://Inventory/UI/Slot.gd" id="1_e6ga2"]
+
+[node name="Slot" type="TextureButton"]
+custom_minimum_size = Vector2(32, 32)
+anchors_preset = -1
+anchor_left = 0.029
+anchor_top = 0.039
+anchor_right = 0.029
+anchor_bottom = 0.039
+offset_left = -16.408
+offset_top = -16.272
+offset_right = 15.592
+offset_bottom = 15.728
+script = ExtResource("1_e6ga2")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.422
+anchor_top = 0.469
+anchor_right = 0.422
+anchor_bottom = 0.469
+offset_left = -23.504
+offset_top = -24.008
+offset_right = 24.496
+offset_bottom = 23.992
+
+[node name="AmountLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.797
+anchor_top = 0.703
+anchor_right = 0.797
+anchor_bottom = 0.703
+offset_left = -12.504
+offset_top = -11.496
+offset_right = 12.496
+offset_bottom = 11.504
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 1000

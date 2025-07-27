@@ -1,0 +1,142 @@
+[gd_scene load_steps=19 format=3 uid="uid://bi1n2ltvmfbim"]
+
+[ext_resource type="Texture2D" uid="uid://d2ruvwsyymy1w" path="res://Assets/Backgrounds/firstbackground.png" id="1_f6fdm"]
+[ext_resource type="PackedScene" uid="uid://crisx50tly05d" path="res://Inventory/UI/UI.tscn" id="1_rj11h"]
+[ext_resource type="PackedScene" uid="uid://p5l0vppl6jx" path="res://Inventory/Pickingup/WorldPickup.tscn" id="2_qac2q"]
+[ext_resource type="PackedScene" uid="uid://chm1oleyalb6v" path="res://Assets/Interactive/Crates/CrateUI.tscn" id="2_rix8b"]
+[ext_resource type="PackedScene" uid="uid://badm6cg1600l1" path="res://Player/Player.tscn" id="2_rj11h"]
+[ext_resource type="Resource" uid="uid://c63qs8kkp7uxn" path="res://Assets/Resources/Items/scrap_metal.tres" id="3_o60nc"]
+[ext_resource type="PackedScene" uid="uid://cmmdl05o8m4yf" path="res://Assets/Object Scenes/firstbuilding.tscn" id="3_qac2q"]
+[ext_resource type="PackedScene" uid="uid://ddiwpx0isb0ts" path="res://Assets/Object Scenes/tent.tscn" id="4_o60nc"]
+[ext_resource type="PackedScene" uid="uid://c0gdfedk3syfw" path="res://Assets/Object Scenes/hut.tscn" id="5_f3gf5"]
+[ext_resource type="PackedScene" uid="uid://dfoaa3f72r156" path="res://Assets/Object Scenes/flags.tscn" id="6_rix8b"]
+[ext_resource type="PackedScene" uid="uid://ohjlk86jxh3t" path="res://Assets/NPC/Trade/jawa.tscn" id="7_0jx5h"]
+[ext_resource type="PackedScene" uid="uid://baqjlv6r2pudb" path="res://Assets/NPC/Wandering/WanderingNPC.tscn" id="7_uhr2j"]
+[ext_resource type="PackedScene" uid="uid://b55o64s8o2cdh" path="res://Assets/Object Scenes/tree.tscn" id="8_uhr2j"]
+[ext_resource type="PackedScene" uid="uid://cjr3ehge5xuk8" path="res://Assets/Interactive/Crates/Crate.tscn" id="12_f3gf5"]
+[ext_resource type="Texture2D" uid="uid://8hbvkc00ymcm" path="res://Assets/Backgrounds/blackscreen.png" id="15_l5bfp"]
+[ext_resource type="Texture2D" uid="uid://bwfel5ry5v8w4" path="res://Assets/Backgrounds/B2building.png" id="15_uhr2j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5bfp"]
+size = Vector2(38, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_guo5i"]
+size = Vector2(113, 23)
+
+[node name="Main" type="Node2D"]
+
+[node name="Ui" parent="." instance=ExtResource("1_rj11h")]
+
+[node name="CrateUI" parent="Ui" instance=ExtResource("2_rix8b")]
+
+[node name="WorldPickup" parent="." instance=ExtResource("2_qac2q")]
+item_data = ExtResource("3_o60nc")
+
+[node name="Background" type="Sprite2D" parent="."]
+show_behind_parent = true
+z_index = -1
+position = Vector2(604, 480)
+texture = ExtResource("1_f6fdm")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Background"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(484, -519, 413, -526, 355, -515, 346, -562, 272, -579, 284, -663, 311, -680, 373, -648, 580, -737, 555, -753, 571, -767, 708, -735, 704, -703, 642, -719, 543, -625, 596, -625, 576, -579, 594, -549, 530, -533)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(118, 457, 67, 488, 70, 503, 153, 503, 159, 486, 147, 466)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(630, 66, 600, 70, 587, 96, 599, 114, 654, 121, 680, 107, 676, 94, 664, 94, 662, 83)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-554, 319, -597, 351, -603, 367, -514, 364, -533, 344, -534, 331)
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-557, 282, -576, 298, -590, 299, -593, 311, -540, 310, -539, 286)
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-129, -667, -181, -636, -180, -612, -117, -608, -65, -612, -52, -637, -82, -645, -92, -662)
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(-536, -772, -536, -688, -499, -674, -478, -649, -497, -596, -536, -579, -649, -553, -637, -493, -647, -436, -628, -372, -649, -286, -643, -222, -669, -119, -631, -119, -620, -21, -610, 49, -645, 101, -645, 169, -655, 212, -649, 239, -646, 378, -625, 393, -652, 443, -670, 547, -644, 561, -640, 598, -657, 608, -645, 670, -633, 684, -649, 703, -654, 768, -769, 768, -767, -773)
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="Background/StaticBody2D"]
+polygon = PackedVector2Array(766, 179, 656, 216, 624, 253, 587, 344, 490, 417, 424, 507, 354, 570, 275, 655, 228, 704, 212, 758, 771, 770)
+
+[node name="Outside" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Player" parent="Outside" instance=ExtResource("2_rj11h")]
+position = Vector2(611, 479)
+
+[node name="WanderingNpc" parent="Outside" instance=ExtResource("7_uhr2j")]
+position = Vector2(691, 556)
+scale = Vector2(0.1, 0.1)
+
+[node name="Crate" parent="Outside" instance=ExtResource("12_f3gf5")]
+position = Vector2(1164, 363)
+scale = Vector2(0.07, 0.07)
+
+[node name="Crate2" parent="Outside" instance=ExtResource("12_f3gf5")]
+position = Vector2(702, 824)
+scale = Vector2(0.07, 0.07)
+
+[node name="Firstbuilding" parent="Outside" instance=ExtResource("3_qac2q")]
+position = Vector2(642, 386)
+
+[node name="DoorToInterior" type="Area2D" parent="Outside/Firstbuilding"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Outside/Firstbuilding/DoorToInterior"]
+position = Vector2(0, -60)
+shape = SubResource("RectangleShape2D_l5bfp")
+
+[node name="tent" parent="Outside" instance=ExtResource("4_o60nc")]
+position = Vector2(626, 793)
+
+[node name="hut" parent="Outside" instance=ExtResource("5_f3gf5")]
+position = Vector2(1059, 357)
+
+[node name="flags" parent="Outside" instance=ExtResource("6_rix8b")]
+position = Vector2(668, 780)
+
+[node name="Jawa" parent="Outside" instance=ExtResource("7_0jx5h")]
+position = Vector2(1062, 346)
+scale = Vector2(0.1, 0.1)
+
+[node name="Tree" parent="Outside" instance=ExtResource("8_uhr2j")]
+position = Vector2(310, 1121)
+
+[node name="Interior" type="Node2D" parent="."]
+visible = false
+y_sort_enabled = true
+
+[node name="Player" parent="Interior" instance=ExtResource("2_rj11h")]
+position = Vector2(611, 479)
+
+[node name="Crate" parent="Interior" instance=ExtResource("12_f3gf5")]
+position = Vector2(1164, 363)
+scale = Vector2(0.07, 0.07)
+
+[node name="Crate2" parent="Interior" instance=ExtResource("12_f3gf5")]
+position = Vector2(702, 824)
+scale = Vector2(0.07, 0.07)
+
+[node name="InteriorBG" type="Sprite2D" parent="Interior"]
+z_index = -2
+position = Vector2(611, 501)
+scale = Vector2(1.7125, 2.53148)
+texture = ExtResource("15_l5bfp")
+
+[node name="B2Building" type="Sprite2D" parent="Interior"]
+position = Vector2(591, 362)
+texture = ExtResource("15_uhr2j")
+
+[node name="DoorToOutside" type="Area2D" parent="Interior/B2Building"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interior/B2Building/DoorToOutside"]
+position = Vector2(-1.5, 410.5)
+shape = SubResource("RectangleShape2D_guo5i")
+
+[connection signal="body_entered" from="Outside/Firstbuilding/DoorToInterior" to="Outside/Player" method="_on_door_to_interior_body_entered"]
+[connection signal="body_entered" from="Interior/B2Building/DoorToOutside" to="Interior/Player" method="_on_door_to_outside_body_entered"]

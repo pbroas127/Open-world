@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfoaa3f72r156"]
+
+[ext_resource type="Texture2D" uid="uid://bbxg8yi6hhula" path="res://Assets/Backgrounds/firstflag.png" id="1_rjfas"]
+
+[node name="flags" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -166)
+texture = ExtResource("1_rjfas")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" groups=["outside_collision"]]
+position = Vector2(4, -156)
+polygon = PackedVector2Array(137, 7, 135, 76, 176, 149, 189, 50)

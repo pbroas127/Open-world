@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0gdfedk3syfw"]
+
+[ext_resource type="Texture2D" uid="uid://b7cpyagsqmhcm" path="res://Assets/Backgrounds/firsttent.png" id="1_jt3o7"]
+
+[node name="hut" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, -94)
+texture = ExtResource("1_jt3o7")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sprite2D/StaticBody2D"]
+polygon = PackedVector2Array(-95, 27, -99, 92, -46, 89, -41, 8, -110, -1)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Sprite2D/StaticBody2D" groups=["outside_collision"]]
+polygon = PackedVector2Array(72, 85, 121, 84, 105, 15, 41, -17, 41, 28)

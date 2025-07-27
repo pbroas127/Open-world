@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://cjr3ehge5xuk8"]
+
+[ext_resource type="Script" uid="uid://cm2xungsknvjw" path="res://Assets/Interactive/Crates/Crate.gd" id="1_4b1x2"]
+[ext_resource type="Texture2D" uid="uid://m47dd51weqrm" path="res://Assets/Interactive/Crates/crate1closed.png" id="2_tnm0c"]
+[ext_resource type="Texture2D" uid="uid://cstoeu3d6jx4p" path="res://Assets/Interactive/Crates/crate1open.png" id="3_6gw4l"]
+[ext_resource type="Texture2D" uid="uid://bac27nmj5or8r" path="res://Assets/Interactive/Crates/rarecrateclosed.png" id="4_63q75"]
+[ext_resource type="FontFile" uid="uid://7frr1ucdtg6h" path="res://Assets/Fonts/Round9x13.ttf" id="4_f4ki3"]
+[ext_resource type="Texture2D" uid="uid://cjsksb5nehr4f" path="res://Player/Shadow (2).png" id="4_tnm0c"]
+[ext_resource type="Texture2D" uid="uid://c2yqal2d8xsg5" path="res://Assets/Interactive/Crates/rarecrateopen.png" id="5_ns4ku"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_807gu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tnm0c")
+}],
+"loop": false,
+"name": &"closed",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6gw4l")
+}],
+"loop": false,
+"name": &"open",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_63q75")
+}],
+"loop": false,
+"name": &"rareclosed",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ns4ku")
+}],
+"loop": false,
+"name": &"rareopen",
+"speed": 12.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1pg0"]
+size = Vector2(983, 747)
+
+[node name="Crate" type="Area2D" groups=["crate"]]
+script = ExtResource("1_4b1x2")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(16, -392)
+sprite_frames = SubResource("SpriteFrames_807gu")
+animation = &"closed"
+speed_scale = 0.3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(6, -380)
+shape = SubResource("RectangleShape2D_t1pg0")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -598.0
+offset_top = -1349.0
+offset_right = 668.0
+offset_bottom = -1144.0
+theme_override_fonts/font = ExtResource("4_f4ki3")
+theme_override_font_sizes/font_size = 150
+text = "Press E to loot"
+
+[node name="Shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.360784)
+position = Vector2(2, 225)
+scale = Vector2(6.26136, 5)
+texture = ExtResource("4_tnm0c")

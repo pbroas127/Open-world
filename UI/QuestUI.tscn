@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://6tgg4xvk5u8m"]
+
+[ext_resource type="Script" uid="uid://cvhh3f0xnu1yc" path="res://Big Scenes/quest_panel.gd" id="1_kcj64"]
+[ext_resource type="FontFile" uid="uid://7frr1ucdtg6h" path="res://Assets/Fonts/Round9x13.ttf" id="2_8l5f8"]
+
+[node name="QuestUI" type="CanvasLayer" groups=["quest_panel"]]
+offset = Vector2(115, 215)
+scale = Vector2(0.8, 0.8)
+transform = Transform2D(0.8, 0, 0, 0.8, 115, 215)
+
+[node name="QuestPanel" type="VBoxContainer" parent="." groups=["quest_panel"]]
+offset_left = -125.0
+offset_top = -250.0
+offset_right = 150.0
+offset_bottom = -200.0
+script = ExtResource("1_kcj64")
+
+[node name="ToggleButton" type="Button" parent="QuestPanel"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_8l5f8")
+theme_override_font_sizes/font_size = 30
+text = "Quests ▾"
+
+[node name="QuestListContainer" type="ItemList" parent="QuestPanel"]
+visible = false
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
