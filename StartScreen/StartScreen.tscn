@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjidt0fyqtrk"]
+
+[ext_resource type="Script" uid="uid://lxh8hv34thrn" path="res://StartScreen/StartScreen.gd" id="1_vdfby"]
+[ext_resource type="FontFile" uid="uid://7frr1ucdtg6h" path="res://Assets/Fonts/Round9x13.ttf" id="2_cqtsi"]
+
+[node name="StartScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_vdfby")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_left = 325.0
+offset_top = 250.0
+offset_right = 825.0
+offset_bottom = 530.0
+
+[node name="NewGame" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cqtsi")
+theme_override_font_sizes/font_size = 30
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cqtsi")
+theme_override_font_sizes/font_size = 30
+text = "Load Game"
+
+[node name="Settings" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cqtsi")
+theme_override_font_sizes/font_size = 30
+text = "Settings"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cqtsi")
+theme_override_font_sizes/font_size = 30
+text = "Quit Game"
+
+[node name="SubmitButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 325.0
+offset_top = 541.0
+offset_right = 825.0
+offset_bottom = 578.0
+theme_override_fonts/font = ExtResource("2_cqtsi")
+theme_override_font_sizes/font_size = 30
+text = "Submit
+"
+
+[node name="SaveNameInput" type="LineEdit" parent="."]
+layout_mode = 2
+offset_left = 325.0
+offset_top = 506.0
+offset_right = 825.0
+offset_bottom = 537.0
+max_length = 12
+
+[node name="LoadListContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 326.0
+offset_top = 248.0
+offset_right = 823.0
+offset_bottom = 583.0
+
+[node name="SaveEntry" type="Button" parent="LoadListContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cqtsi")
+theme_override_font_sizes/font_size = 25

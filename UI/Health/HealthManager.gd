@@ -13,7 +13,8 @@ func _ready():
     save_health()  # <-- optional but ensures health is written on first launch
 
 func save_health():
-    var save_path = "user://save_data.json"
+    var save_path = "user://%s.json" % GameState.current_save_name
+
     var save_data = {}
 
     # Load existing JSON if it exists
@@ -32,7 +33,7 @@ func save_health():
     file.close()
 
 func load_health():
-    var save_path = "user://save_data.json"
+    var save_path = "user://%s.json" % GameState.current_save_name
     if FileAccess.file_exists(save_path):
         var file = FileAccess.open(save_path, FileAccess.READ)
         var content = file.get_as_text()

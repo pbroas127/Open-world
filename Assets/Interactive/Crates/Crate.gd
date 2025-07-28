@@ -29,6 +29,26 @@ func _ready():
     set_idle_animation()
     $Label.visible = false
 
+    # 🧠 Preload saved items into this crate if available
+    if GameState.chests.has(crate_id):
+        var saved_crate_data = GameState.chests[crate_id]
+        items.clear()
+        for slot_name in saved_crate_data:
+            var slot_data = saved_crate_data[slot_name]
+            var item_name = slot_data.get("item_name", "")
+            var amount = int(slot_data.get("amount", 1))
+            var item = GameDatabase.get_item_by_name(item_name)
+            if item:
+                var item_copy = item.duplicate()
+                item_copy.amount = amount
+                items.append(item_copy)
+        print("📦 Crate", crate_id, "preloaded with saved data")
+    else:
+        print("❓ Crate", crate_id, "has no saved contents in save data")
+
+    
+    
+
 func get_crate_type_name(t: int) -> String:
     match t:
         CrateType.NORMAL: return "Normal"
@@ -87,7 +107,6 @@ func open_crate():
     print("🔍 Opening crate:", crate_id)
     print("🎲 Crate Type:", get_crate_type_name(crate_type))
 
-
     is_animating = true
     $Label.visible = false
 
@@ -102,31 +121,50 @@ func open_crate():
 
     await $Sprite.animation_finished
 
-    if not crate_opened:
-        if GameState.chests.has(crate_id):
-            var raw_items = GameState.chests[crate_id]
-            items.clear()
-            for i in raw_items:
-                if i is ItemData:
-                    items.append(i)
-        else:
-            var item_count = randi_range(4, 6)
-            for i in range(item_count):
-                var item = LootTable.get_random_loot_item_by_crate_type(crate_type)
-                if item == null:
-                    continue
-                var stacked = false
-                for existing in items:
-                    if existing.name == item.name:
-                        existing.amount += randi_range(1, 3)
-                        stacked = true
-                        break
-                if not stacked:
-                    item.amount = randi_range(1, 3)
-                    items.append(item)
-            GameState.chests[crate_id] = items
-        crate_opened = true
+    items.clear()
 
+    var crate_data_exists = GameState.chests.has(crate_id)
+    if crate_data_exists:
+        var saved_crate_dict = GameState.chests.get(crate_id, {})
+        for key in saved_crate_dict:
+            var slot_info = saved_crate_dict[key]
+            var item_name = slot_info.get("item_name", "")
+            var amount = int(slot_info.get("amount", 1))
+            var item = GameDatabase.get_item_by_name(item_name)
+            if item:
+                var item_copy = item.duplicate()
+                item_copy.amount = amount
+                items.append(item_copy)
+        print("📦 Loaded saved crate contents:", crate_id)
+    else:
+        # Generate random loot
+        var item_count = randi_range(4, 6)
+        for i in range(item_count):
+            var item = LootTable.get_random_loot_item_by_crate_type(crate_type)
+            if item == null:
+                continue
+            var stacked = false
+            for existing in items:
+                if existing.name == item.name:
+                    existing.amount += randi_range(1, 3)
+                    stacked = true
+                    break
+            if not stacked:
+                item.amount = randi_range(1, 3)
+                items.append(item)
+
+        # Save to GameState in crate format
+        var crate_save_data = {}
+        for i in range(min(items.size(), 6)):
+            var item = items[i]
+            crate_save_data["CSlot%d" % (i + 1)] = {
+                "item_name": item.name,
+                "amount": item.amount
+            }
+        GameState.chests[crate_id] = crate_save_data
+        print("✨ Generated and saved new loot for:", crate_id)
+
+    # Open crate UI with actual item data
     var crate_ui = get_tree().get_first_node_in_group("crate_ui")
     if crate_ui:
         crate_ui.open_with_items(items, crate_id)

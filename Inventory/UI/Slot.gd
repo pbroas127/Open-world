@@ -33,7 +33,7 @@ func save_slot_to_json():
     if owner_ui == null or not ("is_inventory" in owner_ui) or not owner_ui.is_inventory:
         return  # ✅ Do not save if not inventory
 
-    var save_path = "user://save_data.json"
+    var save_path = "user://%s.json" % GameState.current_save_name
     var save_data = {}
 
     if FileAccess.file_exists(save_path):

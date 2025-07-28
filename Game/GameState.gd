@@ -1,7 +1,27 @@
 extends Node
 
+var current_save_name: String = "save_data"  # default fallback
+
+
+func initialize_new_game_data():
+    HealthManager.set_health(100)
+
+    var save_path = "user://%s.json" % GameState.current_save_name
+    var save_data = {
+        "player_health": 100,
+        "inventory": {},
+        # add more default values if needed
+    }
+
+    var file = FileAccess.open(save_path, FileAccess.WRITE)
+    file.store_string(JSON.stringify(save_data, "\t"))
+    file.close()
+
+    print("🆕 New game data initialized!")
+
+
 func _ready():
-    load_game()
+    
     ensure_quest_ui_loaded()
     GameDatabase.register_item(preload("res://Assets/Resources/Items/Orb.tres"))
     GameDatabase.register_item(preload("res://Assets/Resources/Items/scrap_metal.tres"))
@@ -12,24 +32,28 @@ signal quest_data_changed  # 🔔 Tell UI when to update
 
 
 
-var save_path := "user://save_data.json"
-
 func save_game():
+    var save_path = "user://%s.json" % GameState.current_save_name
+
     var data = {
         "quests": active_quests,
         "quest_log_text": quest_log_text,
-        "inventory": inventory,  # ✅ Add inventory
-        "chests": chests         # ✅ Optional: save crate data too
+        "inventory": inventory,
+        "player_health": HealthManager.current_health  # ✅ Save player health
     }
 
     var file = FileAccess.open(save_path, FileAccess.WRITE)
-    file.store_string(JSON.stringify(data, "\t"))  # Pretty print
+    file.store_string(JSON.stringify(data, "\t"))
     file.close()
 
     emit_signal("quest_data_changed")
 
 
+
 func load_game():
+    var save_path = "user://%s.json" % current_save_name
+    print("🔁 Loading from: ", save_path)
+
     if not FileAccess.file_exists(save_path):
         return
 
@@ -47,6 +71,9 @@ func load_game():
             inventory = result["inventory"]
         if result.has("chests"):
             chests = result["chests"]
+        if result.has("player_health"):
+            HealthManager.set_health(result["player_health"])  # ✅ Set loaded health
+
 
 
 func generate_list_text(full_text: String) -> String:

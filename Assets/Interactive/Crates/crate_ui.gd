@@ -74,7 +74,7 @@ func update_crate_data_from_slots():
             bound_items.append(updated_items[i])
 
     # Save to JSON
-    var save_path = "user://save_data.json"
+    var save_path = "user://%s.json" % GameState.current_save_name
     var save_data = {}
 
     if FileAccess.file_exists(save_path):
@@ -87,6 +87,30 @@ func update_crate_data_from_slots():
     var file = FileAccess.open(save_path, FileAccess.WRITE)
     file.store_string(JSON.stringify(save_data, "\t"))
     file.close()
+
+func open_with_items_from_save(crate_data: Dictionary, crate_id: String):
+    visible = true
+    bound_crate_id = crate_id
+    sync_enabled = false
+    bound_items.clear()
+
+    for slot in crate_slots:
+        slot.clear_item()
+
+    for slot_name in crate_data:
+        var item_info = crate_data[slot_name]
+        var item = GameDatabase.get_item_by_name(item_info.get("item_name", ""))
+        if item:
+            var slot_index = int(slot_name.substr(5)) - 1  # e.g., "CSlot2" -> 1
+            if slot_index >= 0 and slot_index < crate_slots.size():
+                var item_copy = item.duplicate()
+                item_copy.amount = int(item_info.get("amount", 1))
+                crate_slots[slot_index].set_item(item_copy, item_copy.amount)
+                bound_items.append(item_copy)
+    
+    sync_enabled = true
+
+
 
 func _on_CloseButton_pressed():
     update_crate_data_from_slots()

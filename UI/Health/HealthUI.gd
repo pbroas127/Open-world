@@ -7,10 +7,17 @@ extends CanvasLayer
 func _ready():
     # Hide the bar until we load the actual health
     health_bar.visible = false
-    await get_tree().process_frame  # Wait one frame to avoid flash
+    await get_tree().process_frame
+
+    if get_tree().current_scene.name == "StartScreen":
+        visible = false
+    else:
+        visible = true
+        health_bar.visible = true  # ✅ Make sure the bar is shown in actual game scenes
 
     update_health(HealthManager.current_health)
-    health_bar.visible = true
+
+    
 
 var last_displayed_health := -1
 

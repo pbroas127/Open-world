@@ -34,6 +34,12 @@ func load_inventory_from_game_state():
             slot.clear_item()
 
 func _ready():
+    await get_tree().process_frame  # wait one frame to ensure current scene is loaded
+
+    if get_tree().current_scene.name == "StartScreen":
+        visible = false
+    else:
+        visible = true
     for slot in all_slots:
         slot.owner_ui = self  # ✅ THIS is the missing piece!
 
@@ -48,8 +54,31 @@ var hotbar_images = [
     preload("res://Assets/UI Images/quickbar6.png")
 ]
 
+
+func reset_inventory():
+    var save_path = "user://%s.json" % GameState.current_save_name
+    var save_data = {}
+
+    # Load existing data if file exists
+    if FileAccess.file_exists(save_path):
+        var file = FileAccess.open(save_path, FileAccess.READ)
+        var content = file.get_as_text()
+        save_data = JSON.parse_string(content)
+        file.close()
+
+    # Reset inventory field
+    save_data["inventory"] = {}
+
+    # Save the reset data
+    var file = FileAccess.open(save_path, FileAccess.WRITE)
+    file.store_string(JSON.stringify(save_data, "\t"))
+    file.close()
+
+    print("🎒 Inventory reset!")
+
+
 func save_inventory_to_json():
-    var save_path = "user://save_data.json"
+    var save_path = "user://%s.json" % GameState.current_save_name
     var save_data = {}
 
     # Load existing data

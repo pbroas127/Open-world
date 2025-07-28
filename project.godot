@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="StarWars Open World"
-run/main_scene="uid://bi1n2ltvmfbim"
+run/main_scene="uid://cjidt0fyqtrk"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
