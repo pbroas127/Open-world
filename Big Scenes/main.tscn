@@ -132,6 +132,11 @@ scale = Vector2(0.1, 0.1)
 position = Vector2(245, -301)
 shape = SubResource("RectangleShape2D_skjh8")
 
+[node name="Bordermain" type="StaticBody2D" parent="Outside"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Outside/Bordermain"]
+polygon = PackedVector2Array(1369, -297, 1375, 1247, -156, 1241, -159, -291, 107, -281, 101, -332, 396, -328, 396, -281, 1344, -285, 1361, -286, 1361, -310, 428, -324, 423, -375, 73, -372, -28, -415, -277, -280, -284, 1334, 1559, 1341, 1499, -334)
+
 [node name="QuestUI" parent="." instance=ExtResource("18_skjh8")]
 
 [node name="QuestNPC" parent="." instance=ExtResource("15_0amnl")]

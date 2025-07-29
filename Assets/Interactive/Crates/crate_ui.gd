@@ -14,6 +14,8 @@ var bound_items: Array[ItemData] = []
 var bound_crate_id: String = ""
 
 func _ready():
+    GameState.save_game()
+
     for i in range(crate_slots.size()):
         crate_slots[i].index = i
         crate_slots[i].owner_ui = self

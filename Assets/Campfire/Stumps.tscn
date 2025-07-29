@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://kjt7oaergumy"]
+
+[ext_resource type="Texture2D" uid="uid://drr0vrchry6nb" path="res://Assets/Campfire/Stumps.png" id="1_som02"]
+
+[node name="Stumps" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_som02")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-86, -34, -107, -24, -140, -4, -150, 14, -141, 26, -129, 22, -78, -7, -77, -22)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(58, -22, 47, -7, 45, 5, 94, 38, 118, 36, 118, 13)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(174, 5, 143, 24, 138, 39, 169, 42, 195, 38, 194, 19)

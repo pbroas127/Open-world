@@ -5,6 +5,7 @@ extends Node2D
 
 func _ready():
     GameState.ensure_quest_ui_loaded()
+    GameState.load_game()
     if GameState.last_door_position != Vector2.ZERO:
         player.global_position = door_to_outside.global_position + Vector2(0, -100)
         

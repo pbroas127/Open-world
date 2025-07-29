@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cnv58s0h5b5my"]
+[gd_scene load_steps=12 format=3 uid="uid://cnv58s0h5b5my"]
 
 [ext_resource type="Texture2D" uid="uid://c4fimp288kyse" path="res://Big Scenes/A2/a2back.png" id="1_1tj14"]
 [ext_resource type="Script" uid="uid://bkb8ers71fq8m" path="res://Big Scenes/A2/a_2.gd" id="1_3gmum"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://5wgku1musiq1" path="res://Assets/Campfire/CampfireMenu.tscn" id="3_mbdfa"]
 [ext_resource type="PackedScene" uid="uid://crisx50tly05d" path="res://Inventory/UI/UI.tscn" id="4_nc8af"]
 [ext_resource type="PackedScene" uid="uid://d22eo4cbh1cnp" path="res://Assets/Campfire/Campfire.tscn" id="5_gjb16"]
+[ext_resource type="PackedScene" uid="uid://kjt7oaergumy" path="res://Assets/Campfire/Stumps.tscn" id="7_3pu0q"]
+[ext_resource type="PackedScene" uid="uid://8wrbvhbqnsrw" path="res://Assets/NPC/Guard/Guard.tscn" id="8_vs5ea"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gmum"]
 size = Vector2(372, 87)
@@ -32,6 +34,20 @@ transform = Transform2D(1, 0, 0, 1, 400, 0)
 
 [node name="A2OutsideYslot" type="Node2D" parent="."]
 y_sort_enabled = true
+
+[node name="Stumps" parent="A2OutsideYslot" instance=ExtResource("7_3pu0q")]
+position = Vector2(996, 153)
+
+[node name="Border" type="StaticBody2D" parent="A2OutsideYslot"]
+position = Vector2(641, 56)
+scale = Vector2(0.1, 0.1)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="A2OutsideYslot/Border"]
+polygon = PackedVector2Array(-800, -5830, -1140, -300, -4400, -170, -4380, 5170, 11010, 5090, 11010, -610, 1240, -230, 1310, -3580, 840, -3990, 1070, -4430, 680, -5300, 1300, -5900, 6430, -6040, 9620, -5670, 10780, -5670, 11090, -10070, -4320, -10130, -4380, -5790, -870, -5830, -880, -5630, -4600, -5550, -4900, -10910, 11730, -10760, 11520, -5150, 1720, -5250, 2020, -1400, 11470, -1510, 11620, 6030, -4800, 6180, -5310, -1000, -1720, -900, -1210, -4920)
+
+[node name="GuardNPC" parent="A2OutsideYslot" instance=ExtResource("8_vs5ea")]
+position = Vector2(641, 56)
+scale = Vector2(0.1, 0.1)
 
 [node name="Campfire" parent="A2OutsideYslot" instance=ExtResource("5_gjb16")]
 position = Vector2(965, 197)

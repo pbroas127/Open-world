@@ -12,6 +12,8 @@ var is_animating := false
 var crate_opened := false
 
 func _ready():
+    GameState.save_game()
+
     if crate_id.strip_edges() == "":
         crate_id = name  # fallback
 
@@ -29,23 +31,7 @@ func _ready():
     set_idle_animation()
     $Label.visible = false
 
-    # 🧠 Preload saved items into this crate if available
-    if GameState.chests.has(crate_id):
-        var saved_crate_data = GameState.chests[crate_id]
-        items.clear()
-        for slot_name in saved_crate_data:
-            var slot_data = saved_crate_data[slot_name]
-            var item_name = slot_data.get("item_name", "")
-            var amount = int(slot_data.get("amount", 1))
-            var item = GameDatabase.get_item_by_name(item_name)
-            if item:
-                var item_copy = item.duplicate()
-                item_copy.amount = amount
-                items.append(item_copy)
-        print("📦 Crate", crate_id, "preloaded with saved data")
-    else:
-        print("❓ Crate", crate_id, "has no saved contents in save data")
-
+    # 🧠 Preload saved items into this crate if availabl
     
     
 
@@ -77,11 +63,15 @@ func set_idle_animation():
 
 
 func _on_body_entered(body):
+    GameState.save_game()
+
     if body.name == "Player":
         player_nearby = true
         $Label.visible = true
 
 func _on_body_exited(body):
+    GameState.save_game()
+
     if body.name == "Player":
         player_nearby = false
         $Label.visible = false
@@ -104,6 +94,7 @@ func _process(_delta):
         open_crate()
 
 func open_crate():
+    GameState.save_game()
     print("🔍 Opening crate:", crate_id)
     print("🎲 Crate Type:", get_crate_type_name(crate_type))
 

@@ -5,4 +5,5 @@ extends Node2D
 func _ready():
     GameState.ensure_quest_ui_loaded()
     inventory_ui.load_inventory_from_game_state()
+    GameState.load_game()
    
