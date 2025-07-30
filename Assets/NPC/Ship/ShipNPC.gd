@@ -12,7 +12,7 @@ extends CharacterBody2D
 
 var part_names: Array[String] = [
     "Plasma Coupler",
-    "Thermal Regulator",
+    "Thermal Regulator", 
     "Phase Link Core",
     "Ion Drive Unit",
     "Quantum Stabilizer"
@@ -24,6 +24,7 @@ var player_nearby := false
 var player_in_alert_zone := false
 var bob_time := 0.0
 var original_exclamation_pos := Vector2.ZERO
+var awaiting_confirmation := false
 
 func _ready():
     chat_label.bbcode_enabled = true
@@ -57,10 +58,10 @@ func _process(delta):
     if player_nearby and Input.is_action_just_pressed("interact") and not dialogue_active:
         start_conversation()
     elif dialogue_active and Input.is_action_just_pressed("ui_accept"):
-        stage += 1
-        GameState.ship_npc_stage[npc_id] = stage  # 💾 Save after advancing
-        advance_conversation()
-
+        if awaiting_confirmation:
+            handle_item_confirmation()
+        else:
+            advance_conversation()
 
 func _on_alert_entered(body):
     if body.name == "Player":
@@ -84,6 +85,7 @@ func _on_interact_exited(body):
         prompt_label.visible = false
         chat_bubble.visible = false
         dialogue_active = false
+        awaiting_confirmation = false
         if player_in_alert_zone:
             exclamation.visible = true
 
@@ -118,11 +120,103 @@ func advance_conversation():
         1:
             await show_text("This is gonna take a bit to fix.\nWe'll need a " + part + " first.\n\n[Space] to continue")
         2, 4, 6, 8:
-            await show_text("Were you able to find the " + part + "?\n\n[Space] to say: Yes, I have it.")
+            # Check if player has the required part
+            if has_required_part(part):
+                var count = get_item_count(part)
+                await show_text("I see you have x" + str(count) + " " + part + ".\nMay I take one to continue repairs?\n\n[Space] to say: Yes, take it")
+                awaiting_confirmation = true
+            else:
+                await show_text("Do you have the " + part + " yet?\n\n[Space] to continue")
+                # Don't advance stage, keep asking for the same part
         3, 5, 7, 9:
-            await show_text("Great. We'll keep making progress.\nLet me know when you're ready for the next part.\n\n[Space] to continue")
+            await show_text("Great! We're making progress.\nNext we'll need a " + part_names[int((stage + 1) / 2)] + ".\n\n[Space] to continue")
         _:
-            await show_text("We’re almost done...")
+            await show_text("We're almost done...")
+
+func handle_item_confirmation():
+    awaiting_confirmation = false
+    var index := int(stage / 2)
+    var part: String = part_names[index]
+    
+    # Remove one item from inventory
+    if remove_item_from_inventory(part):
+        stage += 1
+        GameState.ship_npc_stage[npc_id] = stage
+        await show_text("Perfect! I'll get this installed right away.\n\n[Space] to continue")
+    else:
+        await show_text("Hmm, seems like you don't have it anymore.\n\n[Space] to continue")
+
+func has_required_part(part_name: String) -> bool:
+    return get_item_count(part_name) > 0
+
+func get_item_count(item_name: String) -> int:
+    var save_path = "user://%s.json" % GameState.current_save_name
+    
+    if not FileAccess.file_exists(save_path):
+        return 0
+    
+    var file = FileAccess.open(save_path, FileAccess.READ)
+    var content = file.get_as_text()
+    file.close()
+    
+    if content == "":
+        return 0
+    
+    var save_data = JSON.parse_string(content)
+    if not save_data or not save_data.has("inventory"):
+        return 0
+    
+    var inventory_data = save_data["inventory"]
+    var total_count = 0
+    
+    for slot_name in inventory_data.keys():
+        var slot_data = inventory_data[slot_name]
+        if slot_data.get("item_name", "") == item_name:
+            total_count += slot_data.get("amount", 0)
+    
+    return total_count
+
+func remove_item_from_inventory(item_name: String) -> bool:
+    var save_path = "user://%s.json" % GameState.current_save_name
+    
+    if not FileAccess.file_exists(save_path):
+        return false
+    
+    var file = FileAccess.open(save_path, FileAccess.READ)
+    var content = file.get_as_text()
+    file.close()
+    
+    if content == "":
+        return false
+    
+    var save_data = JSON.parse_string(content)
+    if not save_data or not save_data.has("inventory"):
+        return false
+    
+    var inventory_data = save_data["inventory"]
+    
+    # Find first slot with this item and remove 1
+    for slot_name in inventory_data.keys():
+        var slot_data = inventory_data[slot_name]
+        if slot_data.get("item_name", "") == item_name and slot_data.get("amount", 0) > 0:
+            slot_data["amount"] -= 1
+            
+            # If amount reaches 0, clear the slot
+            if slot_data["amount"] <= 0:
+                inventory_data[slot_name] = {
+                    "item_name": "",
+                    "amount": 0,
+                    "texture_path": ""
+                }
+            
+            # Save the updated inventory
+            var save_file = FileAccess.open(save_path, FileAccess.WRITE)
+            save_file.store_string(JSON.stringify(save_data, "\t"))
+            save_file.close()
+            
+            return true
+    
+    return false
 
 func show_text(line: String) -> void:
     await type_text(chat_label, line)
@@ -149,6 +243,3 @@ func type_text(label: RichTextLabel, full_text: String, speed := 0.04) -> void:
             bubble_tween.tween_property(chat_bubble, "pivot_offset", new_size / 2, 0.1)
 
         await get_tree().create_timer(speed).timeout
-
-    # ❌ DO NOT hide the bubble or end the dialogue here.
-    # Let the player press Space manually to move on.

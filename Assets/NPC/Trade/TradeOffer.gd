@@ -18,7 +18,7 @@ func generate_offer():
     else:
         _generate_legendary_offer()
 
-    _print_offer()
+   
 
 func get_offer_sentence() -> String:
     var sentence = "Hello! I'll give you %s (x%d)\nfor" % [offer.name, offer.amount]  # 👈 notice the \n
@@ -72,9 +72,3 @@ func _add_cost_item(rarity: int, amount: int):
     if item:
         item.amount = amount
         cost_items.append(item)
-
-func _print_offer():
-    print("📦 Trade Offer:")
-    for item in cost_items:
-        print("→ Give: %s (x%d)" % [item.name, item.amount])
-    print("🏆 Receive: %s (x%d)" % [offer.name, offer.amount])

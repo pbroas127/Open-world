@@ -18,7 +18,8 @@ extends CharacterBody2D
     "Recover 3 rare parts from any crate.",
     "Scan the strange signal\n in the eastern cave.",
     "Clear out the raider camp\n east of here.",
-    "Bring back proof the temple\n doors are open."
+    "Bring back proof the temple\n doors are open.",
+    "Collect 10 scrap metal\n from around the wasteland."  # ✅ NEW: Scrap metal quest
 ]
 
 var current_quest: String = ""
@@ -116,31 +117,84 @@ func advance_quest_dialogue():
         if get_tree():
             await accept_quest()
     else:
-        await type_text(chat_label, "Have you been able to complete\n the task we talked about?\n\n[Space] Yes, I've completed it.")
+        # ✅ Check if quest is complete based on progress
+        if is_quest_complete():
+            await type_text(chat_label, "Excellent work! You've\ncompleted the task!\n\n[Space] Turn in quest")
+            
+            while get_tree() and not Input.is_action_just_pressed("ui_accept"):
+                await get_tree().process_frame
+            
+            if get_tree():
+                await complete_quest()
+        else:
+            # Show current progress
+            var progress_text = get_quest_progress_text()
+            await type_text(chat_label, "How's the task going?\n\n" + progress_text + "\n\n[Space] Continue")
 
-        while get_tree() and not Input.is_action_just_pressed("ui_accept"):
-            await get_tree().process_frame
+            while get_tree() and not Input.is_action_just_pressed("ui_accept"):
+                await get_tree().process_frame
 
         if get_tree():
-            await attempt_complete_quest()
+            end_dialogue()
 
 func accept_quest():
     quest_state = 1
     GameState.quests_accepted[npc_id] = quest_state
     GameState.active_quests[npc_id] = current_quest
     GameState.quest_log_text[npc_id] = GameState.generate_list_text(current_quest)
+    
+    # ✅ Initialize quest progress tracking
+    GameState.initialize_quest_progress(npc_id, current_quest)
 
     GameState.save_game()
 
-    # ✅ Ensure the Quest UI exists (in case it was removed)
     await GameState.ensure_quest_ui_loaded()
-
-
 
     await type_text(chat_label, "Quest accepted!\nGood luck out there.")
     await get_tree().create_timer(0.5).timeout
     end_dialogue()
 
+# ✅ NEW: Check if quest is complete
+func is_quest_complete() -> bool:
+    if not GameState.quest_progress.has(npc_id):
+        return false
+    
+    var progress = GameState.quest_progress[npc_id]
+    
+    # For collection quests, update progress first
+    if progress["type"] in ["collect_scrap_metal", "collect_energy_cells"]:
+        GameState.update_collection_quest_progress()
+        progress = GameState.quest_progress[npc_id]  # Get updated progress
+    
+    return progress["current"] >= progress["target"]
+
+# ✅ NEW: Get quest progress text for dialogue
+func get_quest_progress_text() -> String:
+    if not GameState.quest_progress.has(npc_id):
+        return "Progress unknown."
+    
+    var progress = GameState.quest_progress[npc_id]
+    
+    # Update collection quest progress before displaying
+    if progress["type"] in ["collect_scrap_metal", "collect_energy_cells"]:
+        GameState.update_collection_quest_progress()
+        progress = GameState.quest_progress[npc_id]
+    
+    return "Progress: %d/%d" % [progress["current"], progress["target"]]
+
+# ✅ NEW: Complete the quest
+func complete_quest():
+    # Remove quest from active lists
+    GameState.active_quests.erase(npc_id)
+    GameState.quest_log_text.erase(npc_id)
+    GameState.quest_progress.erase(npc_id)
+    GameState.quests_accepted[npc_id] = 2  # Mark as completed
+    
+    GameState.save_game()
+    
+    await type_text(chat_label, "Thank you! Here's your reward.\n(Reward system coming soon!)")
+    await get_tree().create_timer(0.5).timeout
+    end_dialogue()
 
 func attempt_complete_quest():
     await type_text(chat_label, "Let me see... (quest logic coming soon!)")

@@ -21,7 +21,7 @@ var has_active_offer := false
 var current_offer = null
 
 func _ready():
-    print("🧠 Trade for", npc_id, "is:", GameState.trade_offers.get(npc_id, "NEW"))
+   
 
     # Visual setup...
     chat_label.bbcode_enabled = true

@@ -4,7 +4,7 @@ extends Area2D
 
 
 func _ready():
-    print("Pickup Ready")
+    
     if has_node("Icon"):
         $Icon.texture = preload("res://Assets/Resources/Icons/metal.png")  # Use known texture
 

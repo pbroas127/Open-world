@@ -7,7 +7,7 @@ extends CharacterBody2D
 @onready var exclamation = $ExclamationMark
 @onready var chat_bubble = $ChatBubble
 @onready var chat_label = $ChatBubble/ChatLabel
-@onready var collision = $CollisionShape2D  # ⛔ Will be disabled when guard lets you pass
+@onready var collision = $CollisionShape2D
 
 @export var npc_id: String = "bridge_guard"
 
@@ -17,7 +17,8 @@ var player_nearby := false
 var player_in_alert_zone := false
 var bob_time := 0.0
 var original_exclamation_pos := Vector2.ZERO
-var required_item: String = ""  # Will hold random legendary item name
+var required_item: String = ""
+var awaiting_confirmation := false
 
 func _ready():
     sprite.play("idle")
@@ -33,13 +34,17 @@ func _ready():
     chat_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
     chat_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
+    # Load saved stage and required item
     if GameState.ship_npc_stage.has(npc_id):
         stage = GameState.ship_npc_stage[npc_id]
+        if GameState.ship_npc_stage.has(npc_id + "_item"):
+            required_item = GameState.ship_npc_stage[npc_id + "_item"]
     else:
         GameState.ship_npc_stage[npc_id] = stage
 
     if required_item == "":
         required_item = get_random_legendary_item_name()
+        GameState.ship_npc_stage[npc_id + "_item"] = required_item
 
     alert_area.connect("body_entered", _on_alert_entered)
     alert_area.connect("body_exited", _on_alert_exited)
@@ -54,9 +59,10 @@ func _process(delta):
     if player_nearby and Input.is_action_just_pressed("interact") and not dialogue_active:
         start_conversation()
     elif dialogue_active and Input.is_action_just_pressed("ui_accept"):
-        stage += 1
-        GameState.ship_npc_stage[npc_id] = stage
-        advance_conversation()
+        if awaiting_confirmation:
+            handle_item_confirmation()
+        else:
+            advance_conversation()
 
 func _on_alert_entered(body):
     if body.name == "Player":
@@ -80,6 +86,7 @@ func _on_interact_exited(body):
         prompt_label.visible = false
         chat_bubble.visible = false
         dialogue_active = false
+        awaiting_confirmation = false
 
         if player_in_alert_zone:
             exclamation.visible = true
@@ -110,39 +117,103 @@ func advance_conversation():
         2:
             await show_text("I'm gonna need something in return.\n\n[Space] to continue")
         3:
-            await show_text("Bring me 1 " + required_item + " and I’ll move.\n\n[Space] to continue")
+            await show_text("Bring me 1 " + required_item + " and I'll move.\n\n[Space] to continue")
         4:
-            if has_required_item():
-                await show_text("Ah! You brought the " + required_item + ". You may pass.\n\n[Space] to continue")
-                remove_required_item()
-                collision.disabled = true  # ⛔ Unlock the path
+            var item_count = get_item_count(required_item)
+            if item_count > 0:
+                await show_text("I see you have x" + str(item_count) + " " + required_item + ".\nMay I have one? You can pass after.\n\n[Space] to say: Yes, take it")
+                awaiting_confirmation = true
+                return
             else:
-                await show_text("You don’t have the " + required_item + " yet.\nCome back when you do.\n\n[Space] to continue")
-                stage = 3  # Retry this stage
+                await show_text("You don't have the " + required_item + " yet.\nCome back when you do.\n\n[Space] to continue")
+                stage = 3  # Go back to asking for item
         _:
-            await show_text("I’m already letting you through.\nMove along!\n\n[Space] to continue")
+            await show_text("Thanks for the item. You may pass!\n\n[Space] to continue")
 
-func has_required_item() -> bool:
-    var inventory = GameState.inventory
-    for slot_data in inventory.values():
-        if typeof(slot_data) == TYPE_DICTIONARY and slot_data.get("item_name", "") == required_item:
+    if stage < 4:
+        stage += 1
+        GameState.ship_npc_stage[npc_id] = stage
+
+func handle_item_confirmation():
+    awaiting_confirmation = false
+    
+    if remove_item_from_inventory(required_item):
+        stage = 5  # Mark as completed
+        GameState.ship_npc_stage[npc_id] = stage
+        collision.disabled = true  # Allow passage
+        await show_text("Perfect! You may now pass through.\n\n[Space] to continue")
+    else:
+        await show_text("Hmm, seems like you don't have it anymore.\n\n[Space] to continue")
+        stage = 3  # Go back to asking
+
+func get_item_count(item_name: String) -> int:
+    var save_path = "user://%s.json" % GameState.current_save_name
+    
+    if not FileAccess.file_exists(save_path):
+        return 0
+    
+    var file = FileAccess.open(save_path, FileAccess.READ)
+    var content = file.get_as_text()
+    file.close()
+    
+    if content == "":
+        return 0
+    
+    var save_data = JSON.parse_string(content)
+    if not save_data or not save_data.has("inventory"):
+        return 0
+    
+    var inventory_data = save_data["inventory"]
+    var total_count = 0
+    
+    for slot_name in inventory_data.keys():
+        var slot_data = inventory_data[slot_name]
+        if slot_data.get("item_name", "") == item_name:
+            total_count += slot_data.get("amount", 0)
+    
+    return total_count
+
+func remove_item_from_inventory(item_name: String) -> bool:
+    var save_path = "user://%s.json" % GameState.current_save_name
+    
+    if not FileAccess.file_exists(save_path):
+        return false
+    
+    var file = FileAccess.open(save_path, FileAccess.READ)
+    var content = file.get_as_text()
+    file.close()
+    
+    if content == "":
+        return false
+    
+    var save_data = JSON.parse_string(content)
+    if not save_data or not save_data.has("inventory"):
+        return false
+    
+    var inventory_data = save_data["inventory"]
+    
+    # Find first slot with this item and remove 1
+    for slot_name in inventory_data.keys():
+        var slot_data = inventory_data[slot_name]
+        if slot_data.get("item_name", "") == item_name and slot_data.get("amount", 0) > 0:
+            slot_data["amount"] -= 1
+            
+            # If amount reaches 0, clear the slot
+            if slot_data["amount"] <= 0:
+                inventory_data[slot_name] = {
+                    "item_name": "",
+                    "amount": 0,
+                    "texture_path": ""
+                }
+            
+            # Save the updated inventory
+            var save_file = FileAccess.open(save_path, FileAccess.WRITE)
+            save_file.store_string(JSON.stringify(save_data, "\t"))
+            save_file.close()
+            
             return true
+    
     return false
-
-func remove_required_item():
-    var inventory = GameState.inventory
-    for slot in inventory.keys():
-        var data = inventory[slot]
-        if typeof(data) == TYPE_DICTIONARY and data.get("item_name", "") == required_item:
-            data["amount"] -= 1
-            if data["amount"] <= 0:
-                inventory.erase(slot)  # Remove slot if empty
-            else:
-                inventory[slot] = data  # Save updated amount
-            GameState.inventory = inventory
-            UI.save_inventory_to_json()
-            break
-
 
 func get_random_legendary_item_name() -> String:
     var item = LootTable.get_random_loot_item_by_rarity(LootTable.Rarity.LEGENDARY)

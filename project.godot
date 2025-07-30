@@ -17,8 +17,8 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 [autoload]
 
 UI="*res://Inventory/UI/UI.tscn"
-LootTable="*res://Loot/LootTable.gd"
 GameState="*res://Game/GameState.gd"
+LootTable="*res://Loot/LootTable.gd"
 GameDatabase="*res://Game/GameDatabase.gd"
 HealthUI="*res://UI/Health/HealthUI.tscn"
 HealthManager="*res://UI/Health/HealthManager.gd"

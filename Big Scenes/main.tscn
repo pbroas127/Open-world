@@ -81,7 +81,6 @@ position = Vector2(611, 479)
 [node name="ShipNPC" parent="Outside" instance=ExtResource("8_ltq13")]
 position = Vector2(1141, -8.00001)
 scale = Vector2(0.1, 0.1)
-npc_id = "shipnpc1"
 
 [node name="WanderingNpc" parent="Outside" instance=ExtResource("7_pcrpx")]
 position = Vector2(691, 556)
@@ -142,7 +141,6 @@ polygon = PackedVector2Array(1369, -297, 1375, 1247, -156, 1241, -159, -291, 107
 [node name="QuestNPC" parent="." instance=ExtResource("15_0amnl")]
 position = Vector2(272, 385)
 scale = Vector2(0.1, 0.1)
-npc_id = "quest_2"
 
 [connection signal="body_entered" from="Outside/Firstbuilding/DoorToInterior" to="Outside/Player" method="_on_door_to_interior_body_entered"]
 [connection signal="body_entered" from="Outside/b2toa2" to="Outside/Player" method="_on_b_2_toa_2_body_entered"]
