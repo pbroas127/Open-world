@@ -51,6 +51,11 @@ func save_game():
     data["quest_progress"] = quest_progress  # ✅ Save quest progress
     data["player_health"] = HealthManager.current_health
     data["crates"] = chests
+    data["ship_npc_stage"] = ship_npc_stage  # ✅ Save Ship NPC stages
+    data["guard_npc_stage"] = guard_npc_stage  # ✅ Save Guard NPC stages
+    data["quest_npc_stage"] = quest_npc_stage  # ✅ Save Quest NPC stages
+    data["trade_npc_stage"] = trade_npc_stage  # ✅ Save Trade NPC stages
+    data["trade_offers"] = trade_offers  # ✅ Save Trade offers
 
     var file = FileAccess.open(save_path, FileAccess.WRITE)
     file.store_string(JSON.stringify(data, "\t"))
@@ -103,6 +108,21 @@ func load_game():
         if result.has("crate_types"):
             crate_types = result["crate_types"]
             print("🎲 Loaded crate types:", crate_types)
+        if result.has("ship_npc_stage"):  # ✅ Load Ship NPC stages
+            ship_npc_stage = result["ship_npc_stage"]
+            print("🚢 Loaded Ship NPC stages:", ship_npc_stage)
+        if result.has("guard_npc_stage"):  # ✅ Load Guard NPC stages
+            guard_npc_stage = result["guard_npc_stage"]
+            print("🛡️ Loaded Guard NPC stages:", guard_npc_stage)
+        if result.has("quest_npc_stage"):  # ✅ Load Quest NPC stages
+            quest_npc_stage = result["quest_npc_stage"]
+            print("📋 Loaded Quest NPC stages:", quest_npc_stage)
+        if result.has("trade_npc_stage"):  # ✅ Load Trade NPC stages
+            trade_npc_stage = result["trade_npc_stage"]
+            print("🛒 Loaded Trade NPC stages:", trade_npc_stage)
+        if result.has("trade_offers"):  # ✅ Load Trade offers
+            trade_offers = result["trade_offers"]
+            print("🛒 Loaded Trade offers:", trade_offers)
         
         print("🔁 GameState loaded (inventory handled by UI)")
 
@@ -288,6 +308,9 @@ func generate_quest_display_text(npc_id: String) -> String:
             return "Unknown Quest %d/%d" % [current, target]
 
 var ship_npc_stage := {}
+var guard_npc_stage := {}
+var quest_npc_stage := {}
+var trade_npc_stage := {}
 var last_entry_point := ""
 var last_door_position := Vector2.ZERO
 var inventory: Dictionary = {}

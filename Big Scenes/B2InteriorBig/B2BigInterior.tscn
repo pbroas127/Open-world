@@ -124,9 +124,10 @@ position = Vector2(588, 801)
 position = Vector2(-1.5, -29.5)
 shape = SubResource("RectangleShape2D_8xqpo")
 
-[node name="QuestNPC" parent="Interior" instance=ExtResource("10_manc0")]
+[node name="QuestNPC2" parent="Interior" instance=ExtResource("10_manc0")]
 position = Vector2(590, 106)
 scale = Vector2(0.1, 0.1)
+npc_id = "quest_2"
 
 [node name="QuestUI" parent="." instance=ExtResource("11_7gt68")]
 

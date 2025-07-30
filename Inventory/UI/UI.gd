@@ -119,6 +119,9 @@ func _ready():
     for slot in all_slots:
         slot.owner_ui = self
     
+    # Add self to inventory_ui group for easy access
+    add_to_group("inventory_ui")
+    
     print("🔧 UI setup complete, waiting for manual load call")
 
 func save_inventory_to_json():

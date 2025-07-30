@@ -117,6 +117,7 @@ position = Vector2(668, 780)
 [node name="Jawa" parent="Outside" instance=ExtResource("13_2xdxh")]
 position = Vector2(1062, 346)
 scale = Vector2(0.1, 0.1)
+npc_id = ""
 
 [node name="Tree" parent="Outside" instance=ExtResource("14_umj7d")]
 position = Vector2(310, 1121)
@@ -138,9 +139,10 @@ polygon = PackedVector2Array(1369, -297, 1375, 1247, -156, 1241, -159, -291, 107
 
 [node name="QuestUI" parent="." instance=ExtResource("18_skjh8")]
 
-[node name="QuestNPC" parent="." instance=ExtResource("15_0amnl")]
+[node name="QuestNPC1" parent="." instance=ExtResource("15_0amnl")]
 position = Vector2(272, 385)
 scale = Vector2(0.1, 0.1)
+npc_id = "quest_1"
 
 [connection signal="body_entered" from="Outside/Firstbuilding/DoorToInterior" to="Outside/Player" method="_on_door_to_interior_body_entered"]
 [connection signal="body_entered" from="Outside/b2toa2" to="Outside/Player" method="_on_b_2_toa_2_body_entered"]

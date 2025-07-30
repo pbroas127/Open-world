@@ -19,6 +19,7 @@ var bob_time := 0.0
 var original_exclamation_pos := Vector2.ZERO
 var required_item: String = ""
 var awaiting_confirmation := false
+var is_typing := false
 
 func _ready():
     sprite.play("idle")
@@ -35,16 +36,22 @@ func _ready():
     chat_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
     # Load saved stage and required item
-    if GameState.ship_npc_stage.has(npc_id):
-        stage = GameState.ship_npc_stage[npc_id]
-        if GameState.ship_npc_stage.has(npc_id + "_item"):
-            required_item = GameState.ship_npc_stage[npc_id + "_item"]
+    if GameState.guard_npc_stage.has(npc_id):
+        stage = GameState.guard_npc_stage[npc_id]
+        if GameState.guard_npc_stage.has(npc_id + "_item"):
+            required_item = GameState.guard_npc_stage[npc_id + "_item"]
     else:
-        GameState.ship_npc_stage[npc_id] = stage
+        GameState.guard_npc_stage[npc_id] = stage
 
     if required_item == "":
         required_item = get_random_legendary_item_name()
-        GameState.ship_npc_stage[npc_id + "_item"] = required_item
+        GameState.guard_npc_stage[npc_id + "_item"] = required_item
+        GameState.save_game()  # Save the generated item
+
+    # Load collision state - if stage is 5 (completed), disable collision
+    if stage >= 5:
+        collision.disabled = true
+        print("🔓 Guard collision disabled (quest completed)")
 
     alert_area.connect("body_entered", _on_alert_entered)
     alert_area.connect("body_exited", _on_alert_exited)
@@ -58,7 +65,7 @@ func _process(delta):
 
     if player_nearby and Input.is_action_just_pressed("interact") and not dialogue_active:
         start_conversation()
-    elif dialogue_active and Input.is_action_just_pressed("ui_accept"):
+    elif dialogue_active and Input.is_action_just_pressed("ui_accept") and not is_typing:
         if awaiting_confirmation:
             handle_item_confirmation()
         else:
@@ -132,14 +139,16 @@ func advance_conversation():
 
     if stage < 4:
         stage += 1
-        GameState.ship_npc_stage[npc_id] = stage
+        GameState.guard_npc_stage[npc_id] = stage
+        GameState.save_game()  # Save stage progress
 
 func handle_item_confirmation():
     awaiting_confirmation = false
     
     if remove_item_from_inventory(required_item):
         stage = 5  # Mark as completed
-        GameState.ship_npc_stage[npc_id] = stage
+        GameState.guard_npc_stage[npc_id] = stage
+        GameState.save_game()  # Save the completed state
         collision.disabled = true  # Allow passage
         await show_text("Perfect! You may now pass through.\n\n[Space] to continue")
     else:
@@ -211,9 +220,19 @@ func remove_item_from_inventory(item_name: String) -> bool:
             save_file.store_string(JSON.stringify(save_data, "\t"))
             save_file.close()
             
+            # Update the UI to reflect the change
+            update_inventory_ui()
+            
             return true
     
     return false
+
+func update_inventory_ui():
+    # Find the inventory UI through the scene tree (like the scenes do)
+    var inventory_ui = get_tree().current_scene.get_node_or_null("Ui")
+    if inventory_ui and inventory_ui.has_method("load_inventory_from_game_state"):
+        inventory_ui.load_inventory_from_game_state()
+        print("🔄 Updated inventory UI after item removal")
 
 func get_random_legendary_item_name() -> String:
     var item = LootTable.get_random_loot_item_by_rarity(LootTable.Rarity.LEGENDARY)
@@ -223,6 +242,7 @@ func show_text(line: String) -> void:
     await type_text(chat_label, line)
 
 func type_text(label: RichTextLabel, full_text: String, speed := 0.04) -> void:
+    is_typing = true
     label.bbcode_enabled = true
     label.clear()
     var current_text := ""
@@ -244,3 +264,5 @@ func type_text(label: RichTextLabel, full_text: String, speed := 0.04) -> void:
             bubble_tween.tween_property(chat_bubble, "pivot_offset", new_size / 2, 0.1)
 
         await get_tree().create_timer(speed).timeout
+    
+    is_typing = false

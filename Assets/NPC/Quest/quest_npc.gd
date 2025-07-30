@@ -23,12 +23,13 @@ extends CharacterBody2D
 ]
 
 var current_quest: String = ""
-var quest_state := 0  # 0 = not accepted, 1 = accepted
+var stage := 0  # 0 = not accepted, 1 = accepted, 2 = completed
 var player_nearby := false
 var player_in_alert_zone := false
 var bob_time := 0.0
 var dialogue_active := false
 var original_exclamation_pos := Vector2.ZERO
+var is_typing := false
 
 func _ready():
     chat_label.bbcode_enabled = true
@@ -44,13 +45,17 @@ func _ready():
     exclamation.visible = false
     original_exclamation_pos = exclamation.position
 
-    if GameState.quests.has(npc_id):
-        current_quest = GameState.quests[npc_id]
+    # Load saved stage and quest
+    if GameState.quest_npc_stage.has(npc_id):
+        stage = GameState.quest_npc_stage[npc_id]
+        if GameState.quest_npc_stage.has(npc_id + "_quest"):
+            current_quest = GameState.quest_npc_stage[npc_id + "_quest"]
     else:
+        # Generate new quest if none saved
         current_quest = quest_lines[randi() % quest_lines.size()]
-        GameState.quests[npc_id] = current_quest
-
-    quest_state = GameState.quests_accepted.get(npc_id, 0)
+        GameState.quest_npc_stage[npc_id + "_quest"] = current_quest
+        GameState.quest_npc_stage[npc_id] = stage
+        GameState.save_game()  # Save the generated quest
 
     alert_area.connect("body_entered", _on_alert_entered)
     alert_area.connect("body_exited", _on_alert_exited)
@@ -108,7 +113,7 @@ func start_quest_dialogue():
     await advance_quest_dialogue()
 
 func advance_quest_dialogue():
-    if quest_state == 0:
+    if stage == 0:
         await type_text(chat_label, "Quest:\n" + current_quest + "\n\nPress [Space] to Accept")
 
         while get_tree() and not Input.is_action_just_pressed("ui_accept"):
@@ -138,8 +143,8 @@ func advance_quest_dialogue():
             end_dialogue()
 
 func accept_quest():
-    quest_state = 1
-    GameState.quests_accepted[npc_id] = quest_state
+    stage = 1
+    GameState.quest_npc_stage[npc_id] = stage
     GameState.active_quests[npc_id] = current_quest
     GameState.quest_log_text[npc_id] = GameState.generate_list_text(current_quest)
     
@@ -184,11 +189,13 @@ func get_quest_progress_text() -> String:
 
 # ✅ NEW: Complete the quest
 func complete_quest():
+    stage = 2  # Mark as completed
+    GameState.quest_npc_stage[npc_id] = stage
+    
     # Remove quest from active lists
     GameState.active_quests.erase(npc_id)
     GameState.quest_log_text.erase(npc_id)
     GameState.quest_progress.erase(npc_id)
-    GameState.quests_accepted[npc_id] = 2  # Mark as completed
     
     GameState.save_game()
     
@@ -214,6 +221,7 @@ func end_dialogue():
 func type_text(label: RichTextLabel, full_text: String, speed := 0.04) -> void:
     if not get_tree(): return
 
+    is_typing = true
     label.bbcode_enabled = true
     label.clear()
     var current_text := ""
@@ -238,3 +246,5 @@ func type_text(label: RichTextLabel, full_text: String, speed := 0.04) -> void:
 
         if get_tree():
             await get_tree().create_timer(speed).timeout
+    
+    is_typing = false

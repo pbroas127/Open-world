@@ -25,6 +25,7 @@ var player_in_alert_zone := false
 var bob_time := 0.0
 var original_exclamation_pos := Vector2.ZERO
 var awaiting_confirmation := false
+var is_typing := false
 
 func _ready():
     chat_label.bbcode_enabled = true
@@ -57,7 +58,7 @@ func _process(delta):
 
     if player_nearby and Input.is_action_just_pressed("interact") and not dialogue_active:
         start_conversation()
-    elif dialogue_active and Input.is_action_just_pressed("ui_accept"):
+    elif dialogue_active and Input.is_action_just_pressed("ui_accept") and not is_typing:
         if awaiting_confirmation:
             handle_item_confirmation()
         else:
@@ -111,14 +112,21 @@ func advance_conversation():
         await show_text("Thanks again, the ship's fully repaired.\n\n[Space] to close")
         return
 
-    var index := int(stage / 2)
-    var part: String = part_names[index]
+    # Calculate which part we're currently working on
+    var current_part_index := int((stage - 1) / 2) if stage > 0 else 0
+    var part: String = part_names[current_part_index]
 
     match stage:
         0:
             await show_text("Hello. Your ship is in rough shape.\n\n[Space] to continue")
+            stage += 1
+            GameState.ship_npc_stage[npc_id] = stage
+            GameState.save_game()  # Save stage progress
         1:
             await show_text("This is gonna take a bit to fix.\nWe'll need a " + part + " first.\n\n[Space] to continue")
+            stage += 1
+            GameState.ship_npc_stage[npc_id] = stage
+            GameState.save_game()  # Save stage progress
         2, 4, 6, 8:
             # Check if player has the required part
             if has_required_part(part):
@@ -130,18 +138,22 @@ func advance_conversation():
                 # Don't advance stage, keep asking for the same part
         3, 5, 7, 9:
             await show_text("Great! We're making progress.\nNext we'll need a " + part_names[int((stage + 1) / 2)] + ".\n\n[Space] to continue")
+            stage += 1
+            GameState.ship_npc_stage[npc_id] = stage
+            GameState.save_game()  # Save stage progress
         _:
             await show_text("We're almost done...")
 
 func handle_item_confirmation():
     awaiting_confirmation = false
-    var index := int(stage / 2)
-    var part: String = part_names[index]
+    var current_part_index := int((stage - 1) / 2) if stage > 0 else 0
+    var part: String = part_names[current_part_index]
     
     # Remove one item from inventory
     if remove_item_from_inventory(part):
         stage += 1
         GameState.ship_npc_stage[npc_id] = stage
+        GameState.save_game()  # Save stage progress
         await show_text("Perfect! I'll get this installed right away.\n\n[Space] to continue")
     else:
         await show_text("Hmm, seems like you don't have it anymore.\n\n[Space] to continue")
@@ -214,14 +226,25 @@ func remove_item_from_inventory(item_name: String) -> bool:
             save_file.store_string(JSON.stringify(save_data, "\t"))
             save_file.close()
             
+            # Update the UI to reflect the change
+            update_inventory_ui()
+            
             return true
     
     return false
+
+func update_inventory_ui():
+    # Find the inventory UI through the scene tree (like the scenes do)
+    var inventory_ui = get_tree().current_scene.get_node_or_null("Ui")
+    if inventory_ui and inventory_ui.has_method("load_inventory_from_game_state"):
+        inventory_ui.load_inventory_from_game_state()
+        print("🔄 Updated inventory UI after item removal")
 
 func show_text(line: String) -> void:
     await type_text(chat_label, line)
 
 func type_text(label: RichTextLabel, full_text: String, speed := 0.04) -> void:
+    is_typing = true
     label.bbcode_enabled = true
     label.clear()
     var current_text := ""
@@ -243,3 +266,5 @@ func type_text(label: RichTextLabel, full_text: String, speed := 0.04) -> void:
             bubble_tween.tween_property(chat_bubble, "pivot_offset", new_size / 2, 0.1)
 
         await get_tree().create_timer(speed).timeout
+    
+    is_typing = false

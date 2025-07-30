@@ -48,6 +48,7 @@ polygon = PackedVector2Array(-800, -5830, -1140, -300, -4400, -170, -4380, 5170,
 [node name="GuardNPC" parent="A2OutsideYslot" instance=ExtResource("8_vs5ea")]
 position = Vector2(641, 56)
 scale = Vector2(0.1, 0.1)
+npc_id = "guard_1"
 
 [node name="Campfire" parent="A2OutsideYslot" instance=ExtResource("5_gjb16")]
 position = Vector2(965, 197)
